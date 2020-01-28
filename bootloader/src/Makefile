@@ -1,7 +1,7 @@
 PROJECT = iskramsd
 BUILD_DIR = bin
 
-SHARED_DIR = ../my-common-code
+SHARED_DIR =
 CFILES = iskramsd.c
 CFILES += romdisk.c
 CFILES += serialbuf.c

@@ -1,7 +1,7 @@
 PROJECT = blink
 BUILD_DIR = bin
 
-SHARED_DIR = ../my-common-code
+SHARED_DIR =
 CFILES = blink.c
 #CFILES += api.c
 #AFILES += api-asm.S
