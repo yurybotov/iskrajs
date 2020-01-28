@@ -144,7 +144,12 @@ void cdcacm_init(void) { initBufSerial(&serialIn); initBufSerial(&serialOut); }
 
 bool cdcacm_out_ready(void) { return canWrite(&serialOut); }
 
-void cdcacm_putc(uint8_t c) { putBufSerial(&serialOut, c); if(serialOut.len > 60) { cdcacm_data_tx_all( usbdDevice); } }
+void cdcacm_putc(uint8_t c) {
+    putBufSerial(&serialOut, c);
+    if(serialOut.len > 60) {
+        cdcacm_data_tx_all( usbdDevice);
+    }
+}
 
 bool cdcacm_in_ready(void) { return canRead(&serialIn); }
 
