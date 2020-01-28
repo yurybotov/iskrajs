@@ -12,8 +12,8 @@
 
 #include <libopencm3/cm3/scb.h>
 
-#include "usb.h"
 #include "serialbuf.h"
+#include "usb.h"
 
 extern usbd_device* usbdDevice;
 
@@ -144,20 +144,24 @@ bufSerial serialIn;
 bufSerial serialOut;
 
 static void cdcacm_data_tx_all(usbd_device* usbd_dev) {
-	char buf[64];
-	int len = ( serialOut.len > 64)? 64 : serialOut.len;
-	for (int i = 0; i < len; i++) buf[i] = (char)getBufSerial(&serialOut);
-	usbd_ep_write_packet(usbd_dev, 0x83, buf, len);
+    char buf[64];
+    int len = (serialOut.len > 64) ? 64 : serialOut.len;
+    for (int i = 0; i < len; i++)
+        buf[i] = (char)getBufSerial(&serialOut);
+    usbd_ep_write_packet(usbd_dev, 0x83, buf, len);
 }
 
-void cdcacm_init(void) { initBufSerial(&serialIn); initBufSerial(&serialOut); }
+void cdcacm_init(void) {
+    initBufSerial(&serialIn);
+    initBufSerial(&serialOut);
+}
 
 bool cdcacm_out_ready(void) { return canWrite(&serialOut); }
 
 void cdcacm_putc(uint8_t c) {
     putBufSerial(&serialOut, c);
-    if(serialOut.len > 60) {
-        cdcacm_data_tx_all( usbdDevice);
+    if (serialOut.len > 60) {
+        cdcacm_data_tx_all(usbdDevice);
     }
 }
 
@@ -175,8 +179,8 @@ static void cdcacm_data_rx_cb(usbd_device* usbd_dev, uint8_t ep) {
         putBufSerial(&serialIn, buf[i] + 1);
     }
 
-	for (int i = 0; i < len; i++) {
-        cdcacm_putc( cdcacm_getc()+1);
+    for (int i = 0; i < len; i++) {
+        cdcacm_putc(cdcacm_getc() + 1);
     }
 }
 
