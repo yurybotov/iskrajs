@@ -27,6 +27,8 @@
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
 
+#define DELAY 30000000
+
 int main(void)
 {	
 	SCB_VTOR = 0x08004000;
@@ -39,7 +41,7 @@ int main(void)
 	gpio_set(GPIOD, GPIO12 | GPIO14);
 	while(1) {
 		gpio_toggle(GPIOD, GPIO12 | GPIO13 | GPIO14 | GPIO15);
-		for (int i = 0; i < 30000000; i++) {
+		for (int i = 0; i < DELAY; i++) {
 			__asm__("nop");
 		}
 	}
@@ -51,7 +53,7 @@ int main(void)
 	gpio_set(GPIOB, GPIO6);
 	while(1) {
 		gpio_toggle(GPIOB, GPIO6 | GPIO7);
-		for (int i = 0; i < 30000000; i++) {
+		for (int i = 0; i < DELAY; i++) {
 			__asm__("nop");
 		}
 	}
@@ -63,7 +65,7 @@ int main(void)
 	gpio_set(GPIOB, GPIO2);
 	while(1) {
 		gpio_toggle(GPIOB, GPIO2 | GPIO12);
-		for (int i = 0; i < 30000000; i++) {
+		for (int i = 0; i < DELAY; i++) {
 			__asm__("nop");
 		}
 	}
