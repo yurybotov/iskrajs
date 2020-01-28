@@ -32,7 +32,7 @@ void appJumper(void) {
 	// safe interface addresses for using in application ?
 
 	// write to RAM address of USB FS handler
-	*((volatile uint32_t*)(RAM_START-4)) = (uint32_t)otg_fs_isr;
+	//*((volatile uint32_t*)(RAM_START-4)) = (uint32_t)otg_fs_isr;
 	// write to RAM address of USB_SERIAL_RX
 	*((volatile uint32_t*)(RAM_START-8)) = (uint32_t)cdcacm_getc;
 	// write to RAM address of USB_SERIAL_TX

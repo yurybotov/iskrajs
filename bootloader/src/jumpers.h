@@ -5,6 +5,8 @@
 #define APP_START 0x08004000
 // start address of application RAM
 #define RAM_START 0x20001000
+// address of USB FS vector
+#define USB_FS_VECTOR 0x0800014c
 
 // jump to application start
 void appJumper(void);
