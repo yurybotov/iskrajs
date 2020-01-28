@@ -2,6 +2,7 @@
 #define __EXTERNAL_H__
 
 #include <stdint.h>
+#include <stdbool.h>
 
 // void otg_fs_isr(void); // defined at ../libopencm3/include/libopencm3/stm32/f4/nvic.h
 

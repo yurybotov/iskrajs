@@ -6,11 +6,11 @@
 #include <libopencm3/stm32/gpio.h>
 #include <libopencm3/stm32/rcc.h>
 
-#define DELAY 30000000
+#define DELAY 5000000
 
 int main(void) {
     SCB_VTOR = 0x08004000;
-    //	nvic_enable_irq(NVIC_TIM5_IRQ);
+
     cm_enable_interrupts();
 #ifdef STM32F407VGT6
     rcc_periph_clock_enable(RCC_GPIOD);
