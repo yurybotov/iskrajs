@@ -1,3 +1,13 @@
+/*
+ * This file is a part of Iskra JS Arduino SDK.
+ *
+ * Product page: https://amperka.ru/product/iskra-js
+ * © Amperka LLC (https://amperka.com, dev@amperka.com)
+ * 
+ * Author: Yury Botov <by@amperka.com>
+ * License: GPLv3, all text here must be included in any redistribution.
+ */
+
 #include <libopencm3/cm3/cortex.h>
 #include <libopencm3/cm3/nvic.h>
 #include <libopencm3/cm3/scb.h>

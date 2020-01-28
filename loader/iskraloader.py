@@ -1,8 +1,18 @@
 #!/usr/bin/python3
 
+#
+# This file is a part of Iskra JS Arduino SDK.
+#
+# Product page: https://amperka.ru/product/iskra-js
+# © Amperka LLC (https://amperka.com, dev@amperka.com)
+# 
+# Author: Yury Botov <by@amperka.com>
+# License: GPLv3, all text here must be included in any redistribution.
+#
+
 # STM32 ISKRAJS board firmware downloader
 # On board must be USB MSD bootloader
-# Use: python3 stmloader.py firmwarepath/firmwarename.bin
+# Use: python3 iskraloader.py firmwarepath/firmwarename.bin
 # License GPLv2, Copyright 2020 Yury Botov
 
 import sys
