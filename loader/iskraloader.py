@@ -13,7 +13,6 @@
 # STM32 ISKRAJS board firmware downloader
 # On board must be USB MSD bootloader
 # Use: python3 iskraloader.py firmwarepath/firmwarename.bin
-# License GPLv2, Copyright 2020 Yury Botov
 
 import sys
 import os

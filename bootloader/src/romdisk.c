@@ -99,9 +99,9 @@ const uint8_t Readme[] = // cluster 12 sector 48
     "Readme\n\n"
     "This is IskraJS bootloader MSD device.\n"
     "Just copy you IskraJS firmware in .bin format to this disk.\n\n"
-    "You firmware must be compiled for ROM start 0x08004000 and RAM start 0x20001000.\n"
+    "You firmware must be compiled for ROM start 0x08004000 and RAM start 0x20000800.\n"
     "Magic addresses for this bootloader:\n"
-    "- firmware USB FS interrupt vector must be set to 0x080002b9;\n"
+    "- firmware USB FS interrupt vector must be set to 0x080001ad;\n"
     "If somthing is wrong: copy/replace `iskrajs.h` from here to you Arduino directory.\n"
     "\n"
 ;
@@ -111,7 +111,7 @@ const uint8_t Iskrajs_h[] = { // cluster 13 sector 52
     "#define __ISKRAJS_H__\n"
     "\n"
     "#define BOOTLOADER_VERSION 10000\n"
-    "#define USB_FS_HANDLER 0x080002b9\n"
+    "#define USB_FS_HANDLER 0x080001ad\n"
     "\n"
     "#endif\n"
     "\n"
@@ -247,7 +247,7 @@ int romdisk_write(uint32_t lba, const uint8_t *copy_from) {
     // testing firmware structure
     if(lba == START_DATA_SECTOR) {
         if(((uint32_t*)(copy_from))[0] == 0x20020000 && 
-           ((uint32_t*)(copy_from))[83] == 0x080002b9) { // TODO here will be USB FS handler address
+           ((uint32_t*)(copy_from))[83] == 0x080001ad) { // TODO here will be USB FS handler address
             firmwareIsRight = true;
         } else {
             firmwareIsRight = false;

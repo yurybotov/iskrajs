@@ -14,7 +14,7 @@
 // start address of application memory (1 sector of FLASH)
 #define APP_START 0x08004000
 // start address of application RAM
-#define RAM_START 0x20001000
+#define RAM_START 0x20000800
 // address of USB FS vector
 #define USB_FS_VECTOR 0x0800014c
 

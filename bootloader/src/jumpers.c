@@ -18,6 +18,8 @@
 #include "external.h"
 #include "jumpers.h"
 
+#include "depend.h"
+
 extern usbd_device* usbdDevice;
 
 // flag: "started next block writing" - increase relaxLoop duration
@@ -27,9 +29,6 @@ volatile bool otherBlock = false;
 volatile bool writeEnable = false;
 
 void appJumper(void) {
-
-    cm_disable_interrupts();
-
     // ?? А НЕ ЛУЧШЕ ЛИ ПЕРЕНЕСТИ ЭТОТ БРЕД В НАЧАЛО ПРИЛОЖЕНИЯ
     // ?? (ПРИ ПРЕДКОМПИЛИРОВАННОМ ВЕКТОРЕ USB FS НАДО ТОЛЬКО VTOR ПЕРЕДВИНУТЬ)
 
@@ -41,7 +40,7 @@ void appJumper(void) {
     // safe interface addresses for using in application ?
 
     // write to RAM address of USB FS handler
-    //*((volatile uint32_t*)(RAM_START-4)) = (uint32_t)otg_fs_isr;
+    *((volatile uint32_t*)(RAM_START-4)) = (uint32_t)otg_fs_isr;
     // write to RAM address of USB_SERIAL_RX
     *((volatile uint32_t*)(RAM_START - 8)) = (uint32_t)cdcacm_getc;
     // write to RAM address of USB_SERIAL_TX
@@ -51,9 +50,11 @@ void appJumper(void) {
     // write to RAM address of USB_SERIAL_READY
     *((volatile uint32_t*)(RAM_START - 20)) = (uint32_t)cdcacm_out_ready;
 
+    cm_disable_interrupts();
+
     volatile uint32_t stackPtr = *(volatile uint32_t*)(APP_START);
     volatile uint32_t jumpAddress = *(volatile uint32_t*)(APP_START + 4);
-    // reset all core registers
+    // reset core registers set stack and jump to address
     __asm volatile("eor r0, r0\n"
                    "mov r1, %0\n"
                    "mov r2, %1\n"
@@ -78,51 +79,18 @@ void resetJumper(void) {
 
 static void relaxLoop(void) {
     // do some blinking when downloading firmware
-#ifdef STM32F407VGT6
-    gpio_mode_setup(GPIOD, GPIO_MODE_OUTPUT,
-        GPIO_PUPD_NONE, GPIO12 | GPIO13 | GPIO14 | GPIO15);
-    gpio_set(GPIOD, GPIO12 | GPIO14);
+    showLeds();
     for (int j = 0; j < 15; j++) {
         if (otherBlock) {
             otherBlock = false;
             j = 0;
         }
-        gpio_toggle(GPIOD, GPIO12 | GPIO13 | GPIO14 | GPIO15);
+        toggleLeds();
         for (int i = 0; i < 3000000; i++) {
             __asm__("nop");
         }
     }
-#endif
-#ifdef STM32F405RGT6
-    gpio_mode_setup(GPIOB, GPIO_MODE_OUTPUT,
-        GPIO_PUPD_NONE, GPIO6 | GPIO7);
-    gpio_set(GPIOB, GPIO6);
-    for (int j = 0; j < 15; j++) {
-        if (otherBlock) {
-            otherBlock = false;
-            j = 0;
-        }
-        gpio_toggle(GPIOB, GPIO6 | GPIO7);
-        for (int i = 0; i < 3000000; i++) {
-            __asm__("nop");
-        }
-    }
-#endif
-#ifdef STM32F411RG
-    gpio_mode_setup(GPIOB, GPIO_MODE_OUTPUT,
-        GPIO_PUPD_NONE, GPIO2 | GPIO12);
-    gpio_set(GPIOB, GPIO2);
-    for (int j = 0; j < 15; j++) {
-        if (otherBlock) {
-            otherBlock = false;
-            j = 0;
-        }
-        gpio_toggle(GPIOB, GPIO2 | GPIO12);
-        for (int i = 0; i < 3000000; i++) {
-            __asm__("nop");
-        }
-    }
-#endif
+    hideLeds();
     // after blink - reboot
     resetJumper();
 }

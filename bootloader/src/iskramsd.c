@@ -6,6 +6,10 @@
  * 
  * Author: Yury Botov <by@amperka.com>
  * License: GPLv3, all text here must be included in any redistribution.
+ *
+ * FYI: button - if user firmware has crash, you can reload right firmware:
+ * press and hold User button, and press Reset button for 1 sec and release it,
+ * after that release User button. Bootloader ready to load new firmware
  */
 
 #include <stdlib.h>
@@ -20,55 +24,29 @@
 #include "jumpers.h"
 #include "romdisk.h"
 
+#include "depend.h"
+
 extern usbd_device* usbdDevice;
 extern const struct usb_device_descriptor dev_descr;
 extern const struct usb_config_descriptor config_descr;
 extern const char* usb_strings[];
 
+extern uint32_t magic_point;
+
 #include "usb.h"
 
-static uint8_t usbd_control_buffer[128];
+// on usb-fs interrupt
+void otg_fs_isr(void) { usbd_poll(usbdDevice); }
 
-extern uint32_t magic_point;
+static uint8_t usbd_control_buffer[128];
 
 int main(void) {
     // clock initialisation 168MHz on 8MHz quarz (405/407)
     rcc_clock_setup_pll(&rcc_hse_8mhz_3v3[RCC_CLOCK_3V3_168MHZ]);
 
     // power-on usb-fs, leds and button pins
-#ifdef STM32F407VGT6
-    rcc_periph_clock_enable(RCC_GPIOD); // leds
-    rcc_periph_clock_enable(RCC_GPIOA); // button A0 and usb PA11 PA12
-#endif
-#ifdef STM32F405RGT6
-    rcc_periph_clock_enable(RCC_GPIOC); // button C4
-    rcc_periph_clock_enable(RCC_GPIOB); // leds B6 B7
-    rcc_periph_clock_enable(RCC_GPIOA); // usb PA11 PA12
-#endif
-#ifdef STM32F411RG
-    rcc_periph_clock_enable(RCC_GPIOB); // leds PB2 PB12 button PB1
-    rcc_periph_clock_enable(RCC_GPIOA); // usb PA11 PA12
-#endif
-
-    // power-on usb-fs
     rcc_periph_clock_enable(RCC_OTGFS);
-
-    // button - if user firmware has crash, you can reload right firmware:
-    // press and hold User button, and press Reset button for 1 sec and release it,
-    // after that release User button. Bootloader ready to load new firmware.
-#ifdef STM32F407VGT6
-    gpio_mode_setup(GPIOA, GPIO_MODE_INPUT, GPIO_PUPD_PULLDOWN, GPIO0);
-#endif
-#ifdef STM32F405RGT6
-    gpio_mode_setup(GPIOC, GPIO_MODE_INPUT, GPIO_PUPD_PULLDOWN, GPIO4);
-#endif
-#ifdef STM32F411RG
-    gpio_mode_setup(GPIOB, GPIO_MODE_INPUT, GPIO_PUPD_PULLDOWN, GPIO1);
-#endif
-
-    // connect pins to usb-fs
-    gpio_mode_setup(GPIOA, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO11 | GPIO12);
-    gpio_set_af(GPIOA, GPIO_AF10, GPIO11 | GPIO12);
+    initPins();
 
     // Serial USB CDC ACM init
     cdcacm_init();
@@ -93,21 +71,10 @@ int main(void) {
 
     // if button pressed - do not start application, only bootloader (emergency mode)
     // otherwise - run application after bootloader init (normal mode)
-#ifdef STM32F407VGT6
-    if (!(gpio_port_read(GPIOA) & GPIO0)) {
-#endif
-#ifdef STM32F405RGT6
-        if (!(gpio_port_read(GPIOC) & GPIO4)) {
-#endif
-#ifdef STM32F411RG
-            if (!(gpio_port_read(GPIOB) & GPIO1)) {
-#endif
-                appJumper();
-            } else {
-                while (1)
-                    __asm__("nop");
-            }
-        }
-
-        // on usb-fs interrupt
-        void otg_fs_isr(void) { usbd_poll(usbdDevice); }
+    if (buttonReleased()) {
+        appJumper();
+    } else {
+        while (1)
+            __asm__("nop");
+    }
+}

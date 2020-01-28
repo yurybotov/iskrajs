@@ -1,8 +1,9 @@
 PROJECT = iskramsd
 BUILD_DIR = bin
 
-SHARED_DIR =
+SHARED_DIR = ./../../common
 CFILES = iskramsd.c
+CFILES += depend.c
 CFILES += romdisk.c
 CFILES += serialbuf.c
 CFILES += jumpers.c
