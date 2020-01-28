@@ -19,15 +19,17 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "iskrajs.h"
+
 #include <libopencm3/cm3/cortex.h>
 #include <libopencm3/cm3/nvic.h>
 #include <libopencm3/cm3/scb.h>
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
 
-
 int main(void)
 {	
+//	SCB_VTOR = 0x08004000;
 //	nvic_enable_irq(NVIC_TIM5_IRQ);
 	cm_enable_interrupts();
 #ifdef STM32F407VGT6
@@ -66,7 +68,6 @@ int main(void)
 		}
 	}
 #endif
-
 
 	return 0;
 }
