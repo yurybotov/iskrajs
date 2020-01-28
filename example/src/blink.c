@@ -29,7 +29,7 @@
 
 int main(void)
 {	
-//	SCB_VTOR = 0x08004000;
+	SCB_VTOR = 0x08004000;
 //	nvic_enable_irq(NVIC_TIM5_IRQ);
 	cm_enable_interrupts();
 #ifdef STM32F407VGT6
