@@ -61,8 +61,8 @@ int main(void) {
     gpio_mode_setup(GPIOA, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO11 | GPIO12);
     gpio_set_af(GPIOA, GPIO_AF10, GPIO11 | GPIO12);
 
-	// Serial USB CDC ACM init
-	cdcacm_init();
+    // Serial USB CDC ACM init
+    cdcacm_init();
 
     // FAT12 file system on pceudo drive init
     romdisk_init();
@@ -72,7 +72,7 @@ int main(void) {
         usbd_control_buffer, sizeof(usbd_control_buffer));
 
     // msc initialisation
-    usb_msc_init(usbdDevice, 0x81, 64, 0x01, 64, "Amperka", "IskraJS", "0.00",
+    usb_msc_init(usbdDevice, 0x81, 64, 0x01, 64, "Amperka", "IskraJS", "1.00.00",
         romdisk_blocks(), romdisk_read, romdisk_write);
     // cdc handler connection
     usbd_register_set_config_callback(usbdDevice, cdcacm_set_config);
@@ -93,14 +93,12 @@ int main(void) {
 #ifdef STM32F411RG
     if( !(gpio_port_read(GPIOB) & GPIO1)) {
 #endif
-        appJumper(); 
+        appJumper();
     } else {
-        while(1) 
+        while(1)
             __asm__("nop");
     }
 }
 
 // on usb-fs interrupt
 void otg_fs_isr(void) { usbd_poll(usbdDevice); }
-
-
