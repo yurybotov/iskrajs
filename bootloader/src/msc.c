@@ -1,5 +1,5 @@
-#include <stdlib.h>
 #include "usb.h"
+#include <stdlib.h>
 
 // MSC end-point descriptor
 const struct usb_endpoint_descriptor msc_endp[] = {
@@ -8,20 +8,17 @@ const struct usb_endpoint_descriptor msc_endp[] = {
         .bEndpointAddress = 0x01,
         .bmAttributes = USB_ENDPOINT_ATTR_BULK,
         .wMaxPacketSize = 64,
-        .bInterval = 0 
-	},
+        .bInterval = 0 },
     { .bLength = USB_DT_ENDPOINT_SIZE,
         .bDescriptorType = USB_DT_ENDPOINT,
         .bEndpointAddress = 0x81,
         .bmAttributes = USB_ENDPOINT_ATTR_BULK,
         .wMaxPacketSize = 64,
-        .bInterval = 0 
-	}
+        .bInterval = 0 }
 };
 
 // MSC interface descriptor
-const struct usb_interface_descriptor msc_iface[] = { { 
-	.bLength = USB_DT_INTERFACE_SIZE,
+const struct usb_interface_descriptor msc_iface[] = { { .bLength = USB_DT_INTERFACE_SIZE,
     .bDescriptorType = USB_DT_INTERFACE,
     .bInterfaceNumber = 0,
     .bAlternateSetting = 0,
@@ -32,5 +29,4 @@ const struct usb_interface_descriptor msc_iface[] = { {
     .iInterface = 0,
     .endpoint = msc_endp,
     .extra = NULL,
-    .extralen = 0 
-} };
+    .extralen = 0 } };

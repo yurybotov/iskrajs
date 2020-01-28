@@ -34,12 +34,12 @@ extern const struct usb_interface_descriptor msc_iface[];
 
 // Join all interfaces
 static const struct usb_interface ifaces[] = {
-	// MSD interface
+    // MSD interface
     {
         .num_altsetting = 1,
         .altsetting = msc_iface,
     },
-	// CDC ACM interface
+    // CDC ACM interface
     {
         .num_altsetting = 1,
         .iface_assoc = iadcdc_descr,
@@ -68,5 +68,5 @@ const struct usb_config_descriptor config_descr = {
 const char* usb_strings[] = {
     "Amperka", // supplier
     "IskraJS", // product
-    "Loader", // function 
+    "Loader", // function
 };

@@ -1,8 +1,8 @@
 #ifndef __SERIAL_BUF_H__
 #define __SERIAL_BUF_H__
 
-#include <stdbool.h>
 #include "external.h"
+#include <stdbool.h>
 
 #define SERIALBUFLEN 256
 

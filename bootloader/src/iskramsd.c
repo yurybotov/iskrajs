@@ -5,11 +5,10 @@
 #include <libopencm3/stm32/gpio.h>
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/usb/usbd.h>
-#include <libopencm3/stm32/gpio.h>
 
-#include "romdisk.h"
 #include "external.h"
 #include "jumpers.h"
+#include "romdisk.h"
 
 extern usbd_device* usbdDevice;
 extern const struct usb_device_descriptor dev_descr;
@@ -39,13 +38,13 @@ int main(void) {
 #ifdef STM32F411RG
     rcc_periph_clock_enable(RCC_GPIOB); // leds PB2 PB12 button PB1
     rcc_periph_clock_enable(RCC_GPIOA); // usb PA11 PA12
-#endif   
-    
+#endif
+
     // power-on usb-fs
     rcc_periph_clock_enable(RCC_OTGFS);
 
     // button - if user firmware has crash, you can reload right firmware:
-    // press and hold User button, and press Reset button for 1 sec and release it, 
+    // press and hold User button, and press Reset button for 1 sec and release it,
     // after that release User button. Bootloader ready to load new firmware.
 #ifdef STM32F407VGT6
     gpio_mode_setup(GPIOA, GPIO_MODE_INPUT, GPIO_PUPD_PULLDOWN, GPIO0);
@@ -85,20 +84,20 @@ int main(void) {
     // if button pressed - do not start application, only bootloader (emergency mode)
     // otherwise - run application after bootloader init (normal mode)
 #ifdef STM32F407VGT6
-    if( !(gpio_port_read(GPIOA) & GPIO0)) {
+    if (!(gpio_port_read(GPIOA) & GPIO0)) {
 #endif
 #ifdef STM32F405RGT6
-    if( !(gpio_port_read(GPIOC) & GPIO4)) {
+        if (!(gpio_port_read(GPIOC) & GPIO4)) {
 #endif
 #ifdef STM32F411RG
-    if( !(gpio_port_read(GPIOB) & GPIO1)) {
+            if (!(gpio_port_read(GPIOB) & GPIO1)) {
 #endif
-        appJumper();
-    } else {
-        while(1)
-            __asm__("nop");
-    }
-}
+                appJumper();
+            } else {
+                while (1)
+                    __asm__("nop");
+            }
+        }
 
-// on usb-fs interrupt
-void otg_fs_isr(void) { usbd_poll(usbdDevice); }
+        // on usb-fs interrupt
+        void otg_fs_isr(void) { usbd_poll(usbdDevice); }
