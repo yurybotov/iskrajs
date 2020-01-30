@@ -12,10 +12,15 @@
 
 #include <libopencm3/cm3/scb.h>
 
-#include "serialbuf.h"
 #include "usb.h"
+#include "cdc.h"
+#include "serialcore.h"
+#include "serialbuf.h"
 
 extern usbd_device* usbdDevice;
+
+extern bufSerial serialIn;
+extern bufSerial serialOut;
 
 /*
  * This notification endpoint isn't implemented. According to CDC spec it's
@@ -140,36 +145,7 @@ static enum usbd_request_return_codes cdcacm_control_request(
     return USBD_REQ_NOTSUPP;
 }
 
-bufSerial serialIn;
-bufSerial serialOut;
-
-static void cdcacm_data_tx_all(usbd_device* usbd_dev) {
-    char buf[64];
-    int len = (serialOut.len > 64) ? 64 : serialOut.len;
-    for (int i = 0; i < len; i++)
-        buf[i] = (char)getBufSerial(&serialOut);
-    usbd_ep_write_packet(usbd_dev, 0x83, buf, len);
-}
-
-void cdcacm_init(void) {
-    initBufSerial(&serialIn);
-    initBufSerial(&serialOut);
-}
-
-bool cdcacm_out_ready(void) { return canWrite(&serialOut); }
-
-void cdcacm_putc(uint8_t c) {
-    putBufSerial(&serialOut, c);
-    if (serialOut.len > 60) {
-        cdcacm_data_tx_all(usbdDevice);
-    }
-}
-
-bool cdcacm_in_ready(void) { return canRead(&serialIn); }
-
-int cdcacm_getc(void) { return getBufSerial(&serialIn); }
-
-static void cdcacm_data_rx_cb(usbd_device* usbd_dev, uint8_t ep) {
+void cdcacm_data_rx_cb(usbd_device* usbd_dev, uint8_t ep) {
     (void)ep;
 
     char buf[64];

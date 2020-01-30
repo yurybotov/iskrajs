@@ -5,6 +5,7 @@ SHARED_DIR = ./../../common
 CFILES = iskramsd.c
 CFILES += depend.c
 CFILES += romdisk.c
+CFILES += serialcore.c
 CFILES += serialbuf.c
 CFILES += jumpers.c
 CFILES += msc.c

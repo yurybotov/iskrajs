@@ -17,7 +17,7 @@
 #include <libopencm3/usb/cdc.h>
 #include <libopencm3/usb/msc.h>
 
-void cdcacm_init(void);
-void cdcacm_set_config(usbd_device* usbd_dev, uint16_t wValue);
+//void cdcacm_init(void);
+//void cdcacm_set_config(usbd_device* usbd_dev, uint16_t wValue);
 
 #endif

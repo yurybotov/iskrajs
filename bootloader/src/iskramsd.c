@@ -20,9 +20,10 @@
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/usb/usbd.h>
 
-#include "external.h"
 #include "jumpers.h"
 #include "romdisk.h"
+#include "cdc.h"
+#include "serialcore.h"
 
 #include "depend.h"
 

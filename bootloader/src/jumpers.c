@@ -15,7 +15,7 @@
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/usb/usbd.h>
 
-#include "external.h"
+#include "serialcore.h"
 #include "jumpers.h"
 
 #include "depend.h"
