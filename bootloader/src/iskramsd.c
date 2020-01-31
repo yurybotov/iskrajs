@@ -20,6 +20,7 @@
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/usb/usbd.h>
 
+#include "systemtick.h"
 #include "jumpers.h"
 #include "romdisk.h"
 #include "cdc.h"
@@ -39,10 +40,19 @@ extern uint32_t magic_point;
 // on usb-fs interrupt
 void otg_fs_isr(void) { usbd_poll(usbdDevice); }
 
+// on systick interrupt
+extern volatile uint32_t system_millis;
+void sys_tick_handler(void) { 
+    if(++system_millis == 100) { // 0.1 sec
+        system_millis = 0;
+        cdcacm_sync();
+    }
+}
+
 static uint8_t usbd_control_buffer[128];
 
 int main(void) {
-    // clock initialisation 168MHz on 8MHz quarz (405/407)
+    // clock initialisation 168MHz on 8MHz quartz (405/407)
     rcc_clock_setup_pll(&rcc_hse_8mhz_3v3[RCC_CLOCK_3V3_168MHZ]);
 
     // power-on usb-fs, leds and button pins
@@ -69,6 +79,9 @@ int main(void) {
     nvic_set_priority(NVIC_OTG_FS_IRQ, 2 << 4);
     nvic_enable_irq(NVIC_OTG_FS_IRQ);
     rcc_peripheral_enable_clock(&RCC_AHB2ENR, 1 << 7);
+
+    // init systick as 1 kHz
+    systick_setup();
 
     // if button pressed - do not start application, only bootloader (emergency mode)
     // otherwise - run application after bootloader init (normal mode)

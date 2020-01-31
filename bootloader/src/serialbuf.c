@@ -10,14 +10,18 @@
 
 #include "serialbuf.h"
 
+// initialisation
 void initBufSerial(bufSerial* buf) {
     buf->len = buf->first = buf->last = 0;
 }
 
+// true if buffer is not full
 bool canWrite(bufSerial* buf) { return (buf->len < SERIALBUFLEN); }
 
+// true i buffer is not empty
 bool canRead(bufSerial* buf) { return (buf->len > 0); }
 
+// get character from buffer. -1 if buffer empty.
 int16_t getBufSerial(bufSerial* buf) {
     int16_t c = -1;
     if (canRead(buf)) {
@@ -30,6 +34,7 @@ int16_t getBufSerial(bufSerial* buf) {
     return c;
 }
 
+// push character to buffer
 void putBufSerial(bufSerial* buf, uint8_t c) {
     if (canWrite(buf)) {
         buf->buf[buf->first] = c;
@@ -38,4 +43,9 @@ void putBufSerial(bufSerial* buf, uint8_t c) {
             buf->first = 0;
         buf->len++;
     }
+}
+
+// get utilisation size
+int16_t length(bufSerial* buf) {
+    return buf->len;
 }

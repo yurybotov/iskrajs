@@ -4,6 +4,7 @@ BUILD_DIR = bin
 SHARED_DIR = ./../../common
 CFILES = blink.c
 CFILES += depend.c
+CFILES += api.c
 #CFILES += api.c
 #AFILES += api-asm.S
 

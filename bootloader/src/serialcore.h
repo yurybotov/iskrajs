@@ -13,6 +13,8 @@
 
 #include <libopencm3/usb/usbd.h>
 
+void cdcacm_sync(void);
+
 void cdcacm_data_tx_all(usbd_device* usbd_dev);
 
 void cdcacm_init(void);

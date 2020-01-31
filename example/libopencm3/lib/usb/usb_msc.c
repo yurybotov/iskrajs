@@ -435,6 +435,14 @@ static void scsi_mode_sense_6(usbd_mass_storage *ms,
 	}
 }
 
+static const uint8_t _spc3_inquiry_sn_response[20] = {
+	0,
+	0x80,
+	0,
+	0x10,
+	'I','s','k','r','a','J','S',' ','0','1','.','0','0','.','0','0'
+};
+
 static void scsi_inquiry(usbd_mass_storage *ms,
 			 struct usb_msc_trans *trans,
 			 enum trans_event event)
@@ -469,10 +477,35 @@ static void scsi_inquiry(usbd_mass_storage *ms,
 				sizeof(_spc3_inquiry_response);
 
 			set_sbc_status_good(ms);
+		} else if (evpd == 1) {
+			trans->bytes_to_write = sizeof(_spc3_inquiry_sn_response);
+			memcpy(trans->msd_buf, _spc3_inquiry_sn_response, sizeof(_spc3_inquiry_sn_response));
+			trans->csw.csw.dCSWDataResidue = sizeof(_spc3_inquiry_sn_response);
+			set_sbc_status_good(ms);
 		} else {
 			/* TODO: Add VPD 0x83 support */
 			/* TODO: Add VPD 0x00 support */
 		}
+	}
+}
+
+static void scsi_read_format_capacities(usbd_mass_storage *ms,
+	struct usb_msc_trans *trans,
+	enum trans_event event) {
+	
+	if(EVENT_CBW_VALID == event) {
+		trans->msd_buf[3] = 0x08;
+		trans->msd_buf[4] = ms->block_count >> 24;
+		trans->msd_buf[5] = 0xff & (ms->block_count >> 16);
+		trans->msd_buf[6] = 0xff & (ms->block_count >> 8);
+		trans->msd_buf[7] = 0xff & ms->block_count;
+		
+		trans->msd_buf[8] = 0x02;
+		trans->msd_buf[9] = 0;
+		trans->msd_buf[10] = 0x02;
+		trans->msd_buf[11] = 0;
+		trans->bytes_to_write = 9;
+		set_sbc_status_good(ms);
 	}
 }
 
@@ -525,6 +558,9 @@ static void scsi_command(usbd_mass_storage *ms,
 		break;
 	case SCSI_WRITE_10:
 		scsi_write_10(ms, trans, event);
+		break;
+	case SCSI_READ_FORMAT_CAPACITIES:
+		scsi_read_format_capacities(ms, trans, event);
 		break;
 	default:
 		set_sbc_status(ms, SBC_SENSE_KEY_ILLEGAL_REQUEST,

@@ -8,6 +8,7 @@
  * License: GPLv3, all text here must be included in any redistribution.
  */
 
+#include "api.h"
 #include "iskrajs.h"
 
 #include <libopencm3/cm3/cortex.h>
@@ -18,10 +19,12 @@
 
 #include "depend.h"
 
-#define DELAY 50000000
+#define DELAY 10000000
 
 int main(void) {
-    SCB_VTOR = 0x08004000;
+    SCB_VTOR = APPLICATION_START;
+    cm_enable_interrupts();
+
     showLeds();
     while (1) {
         toggleLeds();
@@ -29,6 +32,9 @@ int main(void) {
             __asm__("nop");
         }
     }
-    cm_enable_interrupts();
     return 0;
+}
+
+void application_sys_tick_handler(void) {
+    __asm__("nop");
 }

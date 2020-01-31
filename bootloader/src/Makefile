@@ -11,6 +11,7 @@ CFILES += jumpers.c
 CFILES += msc.c
 CFILES += cdc.c
 CFILES += usb.c
+CFILES += systemtick.c
 
 # TODO - you will need to edit these two lines!
 DEVICE=stm32f407vgt6

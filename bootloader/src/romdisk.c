@@ -246,8 +246,8 @@ static bool firmwareIsRight = false;
 int romdisk_write(uint32_t lba, const uint8_t *copy_from) {
     // testing firmware structure
     if(lba == START_DATA_SECTOR) {
-        if(((uint32_t*)(copy_from))[0] == 0x20020000 && 
-           ((uint32_t*)(copy_from))[83] == 0x080001ad) { // TODO here will be USB FS handler address
+        if(((uint32_t*)(copy_from))[0] == 0x20020000 /*&& 
+           ((uint32_t*)(copy_from))[83] == 0x080001ad*/) { // TODO here will be USB FS handler address
             firmwareIsRight = true;
         } else {
             firmwareIsRight = false;
