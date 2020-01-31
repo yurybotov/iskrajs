@@ -203,7 +203,7 @@ const uint8_t Guid[] = { // cluster 11 sector 44
 
 // work area: cluster 14 sector 56
 
-static uint8_t *romdata = (uint8_t *)APP_START; // 1 sector of flash, in 0 sector we has bootloader
+static uint8_t *romdata = (uint8_t *)ROM_APP_START; // 1 sector of flash, in 0 sector we has bootloader
 
 int romdisk_init(void) {
     return 0;
@@ -246,13 +246,13 @@ static bool firmwareIsRight = false;
 int romdisk_write(uint32_t lba, const uint8_t *copy_from) {
     // testing firmware structure
     if(lba == START_DATA_SECTOR) {
-        if(((uint32_t*)(copy_from))[0] == 0x20020000 /*&& 
-           ((uint32_t*)(copy_from))[83] == 0x080001ad*/) { // TODO here will be USB FS handler address
+        if(((uint32_t*)(copy_from))[0] == 0x20020000) {
             firmwareIsRight = true;
         } else {
             firmwareIsRight = false;
-            relaxJumper(); // for reboot after bad firmware downloading 
+            //relaxJumper(); // for reboot after bad firmware downloading 
         }
+        relaxJumper();
     }
     if (lba >= START_DATA_SECTOR) {
         if(firmwareIsRight) { // if firmware structure is ok
@@ -263,7 +263,7 @@ int romdisk_write(uint32_t lba, const uint8_t *copy_from) {
             case 0: /*clear sector 1*/
                 otherBlock = true;
                 flash_erase_sector(1, 0);
-                relaxJumper();
+                //relaxJumper();
                 break;
             case 32: /*clear sector 2*/
                 otherBlock = true;

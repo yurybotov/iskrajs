@@ -13,34 +13,29 @@
 #include "api.h"
 #include "iskrajs.h"
 
+#include <libopencm3/cm3/cortex.h>
 #include <libopencm3/cm3/nvic.h>
 
 // redirect to bootloader USB FS handler
 void otg_fs_isr(void) {
-    /*volatile uint32_t jumpAddress = *(volatile uint32_t*)(USB_FS_HANDLER);*/
     __asm volatile(
-        "movw r1, #0x01ad\n"
-        "movt r1, #0x0800\n"
-        "mov pc, r1\n"
-    );
-    /*__asm volatile(
-        "ldr r1, =0x080001ad\n"
-        "mov pc, r1\n"
-    );*/
-    /*__asm volatile(
-        "mov r1, %0\n"
-        "mov pc, r1\n"
-        :
-        : "r"(jumpAddress));*/
+        //"cpsid i\n"
+        //"movw r1, #0x0800\n"  // 0x800 - 4 (USB_FS_HANDLER)
+        //"movt r1, #0x2000\n"
+        "ldr r1, =0x20000800\n"
+        "ldr r1,[r1,#-4]\n"
+        //"cpsie i\n"
+        "mov pc, r1\n");
 }
 
 // do local and redirect to bootloader systick address
 void sys_tick_handler(void) {
     //application_sys_tick_handler();
-    //volatile uint32_t jumpAddress = *(volatile uint32_t*)(SYSTICK_HANDLER);
     __asm volatile(
-        "movw r1, #0x01b9\n"
-        "movt r1, #0x0800\n"
-        "mov pc, r1\n"
-    );
+        //"cpsid i\n"
+        "movw r1, #0x0800\n"  // 0x800 - 8 (SYSTICK_HANDLER)
+        "movt r1, #0x2000\n"
+        "ldr r1,[r1,#-8]\n"
+        //"cpsie i\n"
+        "mov pc, r1\n");
 }

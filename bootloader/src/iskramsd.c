@@ -80,12 +80,11 @@ int main(void) {
     nvic_enable_irq(NVIC_OTG_FS_IRQ);
     rcc_peripheral_enable_clock(&RCC_AHB2ENR, 1 << 7);
 
-    // init systick as 1 kHz
-    systick_setup();
-
     // if button pressed - do not start application, only bootloader (emergency mode)
     // otherwise - run application after bootloader init (normal mode)
     if (buttonReleased()) {
+        // init systick as 1 kHz
+        systick_setup();        
         appJumper();
     } else {
         while (1)

@@ -36,5 +36,5 @@ int main(void) {
 }
 
 void application_sys_tick_handler(void) {
-    __asm__("nop");
+    __asm volatile ("nop");
 }

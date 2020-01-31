@@ -7,5 +7,10 @@ void systick_setup(void) {
 	systick_set_reload(168000);
 	systick_set_clocksource(STK_CSR_CLKSOURCE_AHB);
 	systick_counter_enable();
-	systick_interrupt_enable();
+	//systick_interrupt_enable();
+}
+
+void systick_block(void) {
+	systick_counter_disable();
+	systick_interrupt_disable();
 }
