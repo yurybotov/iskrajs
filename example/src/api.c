@@ -29,7 +29,7 @@ void otg_fs_isr(void) {
 
 // do local and redirect to bootloader systick address
 void sys_tick_handler(void) {
-    //application_sys_tick_handler();
+    application_sys_tick_handler();
     __asm volatile(
         //"b #0x080001b9\n"
         "movw r1, #0x0800\n"  // 0x800 - 8 (SYSTICK_HANDLER)
