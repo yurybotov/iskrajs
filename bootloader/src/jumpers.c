@@ -13,9 +13,9 @@
 #include <libopencm3/cm3/scb.h>
 #include <libopencm3/usb/usbd.h>
 
+#include "jumpers.h"
 #include "serialcore.h"
 #include "systemtick.h"
-#include "jumpers.h"
 
 #include "depend.h"
 
@@ -34,15 +34,15 @@ void appJumper(void) {
     // write to RAM address of SysTick handler
     *((volatile uint32_t*)(RAM_APP_START - 8)) = (uint32_t)sys_tick_handler;
     // write to RAM address of USB_SERIAL_SEND
-    *((volatile uint32_t*)(RAM_APP_START - 12)) = (uint32_t)cdcacm_sync;
+    *((volatile uint32_t*)(RAM_APP_START - 12)) = (uint32_t)cdcacm_sync + 1;
     // write to RAM address of USB_SERIAL_RX
-    *((volatile uint32_t*)(RAM_APP_START - 16)) = (uint32_t)cdcacm_getc;
+    *((volatile uint32_t*)(RAM_APP_START - 16)) = (uint32_t)cdcacm_getc + 1;
     // write to RAM address of USB_SERIAL_TX
-    *((volatile uint32_t*)(RAM_APP_START - 20)) = (uint32_t)cdcacm_putc;
+    *((volatile uint32_t*)(RAM_APP_START - 20)) = (uint32_t)cdcacm_putc + 1;
     // write to RAM address of USB_SERIAL_AVAILABLE
-    *((volatile uint32_t*)(RAM_APP_START - 24)) = (uint32_t)cdcacm_in_ready;
+    *((volatile uint32_t*)(RAM_APP_START - 24)) = (uint32_t)cdcacm_in_ready + 1;
     // write to RAM address of USB_SERIAL_READY
-    *((volatile uint32_t*)(RAM_APP_START - 28)) = (uint32_t)cdcacm_out_ready;
+    *((volatile uint32_t*)(RAM_APP_START - 28)) = (uint32_t)cdcacm_out_ready + 1;
 
     cm_disable_interrupts();
 

@@ -23,15 +23,6 @@ void cdcacm_sync(void) {
     }
 }
 
-// Send packet to USB
-void cdcacm_data_tx_all(usbd_device* usbd_dev) {
-    char buf[64];
-    int len = (serialOut.len > 60) ? 60 : serialOut.len;
-    for (int i = 0; i < len; i++)
-        buf[i] = (char)getBufSerial(&serialOut);
-    usbd_ep_write_packet(usbd_dev, 0x83, buf, len);
-}
-
 // RX and TX buffers initialisation
 void cdcacm_init(void) {
     initBufSerial(&serialIn);
@@ -57,6 +48,6 @@ bool cdcacm_in_ready(void) {
 }
 
 // read char from RX buffer
-int cdcacm_getc(void) {
+int16_t cdcacm_getc(void) {
     return getBufSerial(&serialIn);
 }

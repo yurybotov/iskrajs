@@ -11,6 +11,17 @@
 #ifndef __API_H__
 #define __API_H__
 
+#include <stdint.h>
+#include <stdbool.h>
+
 void application_sys_tick_handler(void);
+
+void initSerial(void);
+
+extern void (*syncSerial)(void);
+extern void (*putSerial)(uint8_t);
+extern int16_t (*getSerial)(void);
+extern bool (*availableSerial)(void);
+extern bool (*readyToSendSerial)(void);
 
 #endif
