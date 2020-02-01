@@ -19,23 +19,22 @@
 // redirect to bootloader USB FS handler
 void otg_fs_isr(void) {
     __asm volatile(
-        //"cpsid i\n"
-        //"movw r1, #0x0800\n"  // 0x800 - 4 (USB_FS_HANDLER)
-        //"movt r1, #0x2000\n"
-        "ldr r1, =0x20000800\n"
+        //"b #0x080001ad\n"
+        "movw r1, #0x0800\n"  // 0x800 - 4 (USB_FS_HANDLER)
+        "movt r1, #0x2000\n"
         "ldr r1,[r1,#-4]\n"
-        //"cpsie i\n"
-        "mov pc, r1\n");
+        "mov pc, r1\n"
+        );
 }
 
 // do local and redirect to bootloader systick address
 void sys_tick_handler(void) {
     //application_sys_tick_handler();
     __asm volatile(
-        //"cpsid i\n"
+        //"b #0x080001b9\n"
         "movw r1, #0x0800\n"  // 0x800 - 8 (SYSTICK_HANDLER)
         "movt r1, #0x2000\n"
         "ldr r1,[r1,#-8]\n"
-        //"cpsie i\n"
-        "mov pc, r1\n");
+        "mov pc, r1\n"
+        );
 }

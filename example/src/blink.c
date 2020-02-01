@@ -27,7 +27,7 @@ int main(void) {
 
     showLeds();
     while (1) {
-        toggleLeds();
+        toggleLeds();      
         for (int i = 0; i < DELAY; i++) {
             __asm__("nop");
         }

@@ -20,7 +20,7 @@
 #include "depend.h"
 
 extern usbd_device* usbdDevice;
-extern void otg_fs_isr(void);
+//extern void otg_fs_isr(void);
 
 // flag: "started next block writing" - increase relaxLoop duration
 volatile bool otherBlock = false;
@@ -98,7 +98,7 @@ void relaxJumper(void) {
     //systick_block();
     cm_disable_interrupts();
     // relocate interrupt vectors
-    //SCB_VTOR = 0x08000000;
+    SCB_VTOR = 0x08000000;
     // replace return address of usb-fs interrupt to relaxLoop
     __asm volatile(
         "mov r1, %0\n"
