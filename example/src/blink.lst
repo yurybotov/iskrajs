@@ -5,46 +5,46 @@ blink.elf:     file format elf32-littlearm
 Disassembly of section .text:
 
 08004000 <vector_table>:
- 8004000:	00 00 02 20 05 43 00 08 01 43 00 08 ff 42 00 08     ... .C...C...B..
- 8004010:	ff 42 00 08 ff 42 00 08 ff 42 00 08 00 00 00 00     .B...B...B......
+ 8004000:	00 00 02 20 0d 43 00 08 09 43 00 08 07 43 00 08     ... .C...C...C..
+ 8004010:	07 43 00 08 07 43 00 08 07 43 00 08 00 00 00 00     .C...C...C......
 	...
- 800402c:	01 43 00 08 01 43 00 08 00 00 00 00 01 43 00 08     .C...C.......C..
- 800403c:	41 42 00 08 ff 42 00 08 ff 42 00 08 ff 42 00 08     AB...B...B...B..
- 800404c:	ff 42 00 08 ff 42 00 08 ff 42 00 08 ff 42 00 08     .B...B...B...B..
- 800405c:	ff 42 00 08 ff 42 00 08 ff 42 00 08 ff 42 00 08     .B...B...B...B..
- 800406c:	ff 42 00 08 ff 42 00 08 ff 42 00 08 ff 42 00 08     .B...B...B...B..
- 800407c:	ff 42 00 08 ff 42 00 08 ff 42 00 08 ff 42 00 08     .B...B...B...B..
- 800408c:	ff 42 00 08 ff 42 00 08 ff 42 00 08 ff 42 00 08     .B...B...B...B..
- 800409c:	ff 42 00 08 ff 42 00 08 ff 42 00 08 ff 42 00 08     .B...B...B...B..
- 80040ac:	ff 42 00 08 ff 42 00 08 ff 42 00 08 ff 42 00 08     .B...B...B...B..
- 80040bc:	ff 42 00 08 ff 42 00 08 ff 42 00 08 ff 42 00 08     .B...B...B...B..
- 80040cc:	ff 42 00 08 ff 42 00 08 ff 42 00 08 ff 42 00 08     .B...B...B...B..
- 80040dc:	ff 42 00 08 ff 42 00 08 ff 42 00 08 ff 42 00 08     .B...B...B...B..
- 80040ec:	ff 42 00 08 ff 42 00 08 ff 42 00 08 ff 42 00 08     .B...B...B...B..
- 80040fc:	ff 42 00 08 ff 42 00 08 ff 42 00 08 ff 42 00 08     .B...B...B...B..
- 800410c:	ff 42 00 08 ff 42 00 08 ff 42 00 08 ff 42 00 08     .B...B...B...B..
- 800411c:	ff 42 00 08 ff 42 00 08 ff 42 00 08 ff 42 00 08     .B...B...B...B..
- 800412c:	ff 42 00 08 ff 42 00 08 ff 42 00 08 ff 42 00 08     .B...B...B...B..
- 800413c:	ff 42 00 08 ff 42 00 08 ff 42 00 08 ff 42 00 08     .B...B...B...B..
- 800414c:	31 42 00 08 ff 42 00 08 ff 42 00 08 ff 42 00 08     1B...B...B...B..
- 800415c:	ff 42 00 08 ff 42 00 08 ff 42 00 08 ff 42 00 08     .B...B...B...B..
- 800416c:	ff 42 00 08 ff 42 00 08 ff 42 00 08 ff 42 00 08     .B...B...B...B..
- 800417c:	ff 42 00 08 ff 42 00 08 ff 42 00 08 ff 42 00 08     .B...B...B...B..
- 800418c:	ff 42 00 08 ff 42 00 08 ff 42 00 08 ff 42 00 08     .B...B...B...B..
- 800419c:	ff 42 00 08 ff 42 00 08 ff 42 00 08 ff 42 00 08     .B...B...B...B..
+ 800402c:	09 43 00 08 09 43 00 08 00 00 00 00 09 43 00 08     .C...C.......C..
+ 800403c:	43 42 00 08 07 43 00 08 07 43 00 08 07 43 00 08     CB...C...C...C..
+ 800404c:	07 43 00 08 07 43 00 08 07 43 00 08 07 43 00 08     .C...C...C...C..
+ 800405c:	07 43 00 08 07 43 00 08 07 43 00 08 07 43 00 08     .C...C...C...C..
+ 800406c:	07 43 00 08 07 43 00 08 07 43 00 08 07 43 00 08     .C...C...C...C..
+ 800407c:	07 43 00 08 07 43 00 08 07 43 00 08 07 43 00 08     .C...C...C...C..
+ 800408c:	07 43 00 08 07 43 00 08 07 43 00 08 07 43 00 08     .C...C...C...C..
+ 800409c:	07 43 00 08 07 43 00 08 07 43 00 08 07 43 00 08     .C...C...C...C..
+ 80040ac:	07 43 00 08 07 43 00 08 07 43 00 08 07 43 00 08     .C...C...C...C..
+ 80040bc:	07 43 00 08 07 43 00 08 07 43 00 08 07 43 00 08     .C...C...C...C..
+ 80040cc:	07 43 00 08 07 43 00 08 07 43 00 08 07 43 00 08     .C...C...C...C..
+ 80040dc:	07 43 00 08 07 43 00 08 07 43 00 08 07 43 00 08     .C...C...C...C..
+ 80040ec:	07 43 00 08 07 43 00 08 07 43 00 08 07 43 00 08     .C...C...C...C..
+ 80040fc:	07 43 00 08 07 43 00 08 07 43 00 08 07 43 00 08     .C...C...C...C..
+ 800410c:	07 43 00 08 07 43 00 08 07 43 00 08 07 43 00 08     .C...C...C...C..
+ 800411c:	07 43 00 08 07 43 00 08 07 43 00 08 07 43 00 08     .C...C...C...C..
+ 800412c:	07 43 00 08 07 43 00 08 07 43 00 08 07 43 00 08     .C...C...C...C..
+ 800413c:	07 43 00 08 07 43 00 08 07 43 00 08 07 43 00 08     .C...C...C...C..
+ 800414c:	35 42 00 08 07 43 00 08 07 43 00 08 07 43 00 08     5B...C...C...C..
+ 800415c:	07 43 00 08 07 43 00 08 07 43 00 08 07 43 00 08     .C...C...C...C..
+ 800416c:	07 43 00 08 07 43 00 08 07 43 00 08 07 43 00 08     .C...C...C...C..
+ 800417c:	07 43 00 08 07 43 00 08 07 43 00 08 07 43 00 08     .C...C...C...C..
+ 800418c:	07 43 00 08 07 43 00 08 07 43 00 08 07 43 00 08     .C...C...C...C..
+ 800419c:	07 43 00 08 07 43 00 08 07 43 00 08 07 43 00 08     .C...C...C...C..
 
 080041ac <main>:
  80041ac:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
  80041ae:	4b0d      	ldr	r3, [pc, #52]	; (80041e4 <main+0x38>)
  80041b0:	4a0d      	ldr	r2, [pc, #52]	; (80041e8 <main+0x3c>)
  80041b2:	601a      	str	r2, [r3, #0]
- 80041b4:	f000 f84c 	bl	8004250 <initSerial>
+ 80041b4:	f000 f848 	bl	8004248 <initSerial>
  80041b8:	b662      	cpsie	i
- 80041ba:	f000 f81f 	bl	80041fc <showLeds>
+ 80041ba:	f000 f821 	bl	8004200 <showLeds>
  80041be:	4c0b      	ldr	r4, [pc, #44]	; (80041ec <main+0x40>)
  80041c0:	4d0b      	ldr	r5, [pc, #44]	; (80041f0 <main+0x44>)
  80041c2:	4e0c      	ldr	r6, [pc, #48]	; (80041f4 <main+0x48>)
- 80041c4:	f000 f82c 	bl	8004220 <toggleLeds>
+ 80041c4:	f000 f82e 	bl	8004224 <toggleLeds>
  80041c8:	6823      	ldr	r3, [r4, #0]
  80041ca:	4798      	blx	r3
  80041cc:	b128      	cbz	r0, 80041da <main+0x2e>
@@ -66,178 +66,184 @@ Disassembly of section .text:
  80041f4:	20000804 	.word	0x20000804
  80041f8:	00989680 	.word	0x00989680
 
-080041fc <showLeds>:
- 80041fc:	b510      	push	{r4, lr}
- 80041fe:	4c07      	ldr	r4, [pc, #28]	; (800421c <showLeds+0x20>)
- 8004200:	2101      	movs	r1, #1
- 8004202:	4620      	mov	r0, r4
- 8004204:	f44f 4370 	mov.w	r3, #61440	; 0xf000
- 8004208:	2200      	movs	r2, #0
- 800420a:	f000 f856 	bl	80042ba <gpio_mode_setup>
- 800420e:	4620      	mov	r0, r4
- 8004210:	f44f 41a0 	mov.w	r1, #20480	; 0x5000
- 8004214:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
- 8004218:	f000 b844 	b.w	80042a4 <gpio_set>
- 800421c:	40020c00 	.word	0x40020c00
+080041fc <application_sys_tick_handler>:
+ 80041fc:	bf00      	nop
+ 80041fe:	4770      	bx	lr
 
-08004220 <toggleLeds>:
- 8004220:	f44f 4170 	mov.w	r1, #61440	; 0xf000
- 8004224:	4801      	ldr	r0, [pc, #4]	; (800422c <toggleLeds+0xc>)
- 8004226:	f000 b83f 	b.w	80042a8 <gpio_toggle>
- 800422a:	bf00      	nop
- 800422c:	40020c00 	.word	0x40020c00
+08004200 <showLeds>:
+ 8004200:	b510      	push	{r4, lr}
+ 8004202:	4c07      	ldr	r4, [pc, #28]	; (8004220 <showLeds+0x20>)
+ 8004204:	2101      	movs	r1, #1
+ 8004206:	4620      	mov	r0, r4
+ 8004208:	f44f 4370 	mov.w	r3, #61440	; 0xf000
+ 800420c:	2200      	movs	r2, #0
+ 800420e:	f000 f858 	bl	80042c2 <gpio_mode_setup>
+ 8004212:	4620      	mov	r0, r4
+ 8004214:	f44f 41a0 	mov.w	r1, #20480	; 0x5000
+ 8004218:	e8bd 4010 	ldmia.w	sp!, {r4, lr}
+ 800421c:	f000 b846 	b.w	80042ac <gpio_set>
+ 8004220:	40020c00 	.word	0x40020c00
 
-08004230 <otg_fs_isr>:
- 8004230:	f640 0100 	movw	r1, #2048	; 0x800
- 8004234:	f2c2 0100 	movt	r1, #8192	; 0x2000
- 8004238:	f851 1c04 	ldr.w	r1, [r1, #-4]
- 800423c:	468f      	mov	pc, r1
- 800423e:	4770      	bx	lr
+08004224 <toggleLeds>:
+ 8004224:	f44f 4170 	mov.w	r1, #61440	; 0xf000
+ 8004228:	4801      	ldr	r0, [pc, #4]	; (8004230 <toggleLeds+0xc>)
+ 800422a:	f000 b841 	b.w	80042b0 <gpio_toggle>
+ 800422e:	bf00      	nop
+ 8004230:	40020c00 	.word	0x40020c00
 
-08004240 <sys_tick_handler>:
- 8004240:	f640 0100 	movw	r1, #2048	; 0x800
- 8004244:	f2c2 0100 	movt	r1, #8192	; 0x2000
- 8004248:	f851 1c08 	ldr.w	r1, [r1, #-8]
- 800424c:	468f      	mov	pc, r1
- 800424e:	4770      	bx	lr
+08004234 <otg_fs_isr>:
+ 8004234:	f640 0600 	movw	r6, #2048	; 0x800
+ 8004238:	f2c2 0600 	movt	r6, #8192	; 0x2000
+ 800423c:	f856 fc04 	ldr.w	pc, [r6, #-4]
+ 8004240:	4770      	bx	lr
 
-08004250 <initSerial>:
- 8004250:	4b0a      	ldr	r3, [pc, #40]	; (800427c <initSerial+0x2c>)
- 8004252:	681a      	ldr	r2, [r3, #0]
- 8004254:	4b0a      	ldr	r3, [pc, #40]	; (8004280 <initSerial+0x30>)
- 8004256:	601a      	str	r2, [r3, #0]
- 8004258:	4b0a      	ldr	r3, [pc, #40]	; (8004284 <initSerial+0x34>)
- 800425a:	681a      	ldr	r2, [r3, #0]
- 800425c:	4b0a      	ldr	r3, [pc, #40]	; (8004288 <initSerial+0x38>)
- 800425e:	601a      	str	r2, [r3, #0]
- 8004260:	4b0a      	ldr	r3, [pc, #40]	; (800428c <initSerial+0x3c>)
- 8004262:	681a      	ldr	r2, [r3, #0]
- 8004264:	4b0a      	ldr	r3, [pc, #40]	; (8004290 <initSerial+0x40>)
- 8004266:	601a      	str	r2, [r3, #0]
- 8004268:	4b0a      	ldr	r3, [pc, #40]	; (8004294 <initSerial+0x44>)
- 800426a:	681a      	ldr	r2, [r3, #0]
- 800426c:	4b0a      	ldr	r3, [pc, #40]	; (8004298 <initSerial+0x48>)
- 800426e:	601a      	str	r2, [r3, #0]
- 8004270:	4b0a      	ldr	r3, [pc, #40]	; (800429c <initSerial+0x4c>)
- 8004272:	681a      	ldr	r2, [r3, #0]
- 8004274:	4b0a      	ldr	r3, [pc, #40]	; (80042a0 <initSerial+0x50>)
- 8004276:	601a      	str	r2, [r3, #0]
- 8004278:	4770      	bx	lr
- 800427a:	bf00      	nop
- 800427c:	200007f4 	.word	0x200007f4
- 8004280:	20000810 	.word	0x20000810
- 8004284:	200007f0 	.word	0x200007f0
- 8004288:	20000804 	.word	0x20000804
- 800428c:	200007ec 	.word	0x200007ec
- 8004290:	20000808 	.word	0x20000808
- 8004294:	200007e8 	.word	0x200007e8
- 8004298:	20000800 	.word	0x20000800
- 800429c:	200007e4 	.word	0x200007e4
- 80042a0:	2000080c 	.word	0x2000080c
-
-080042a4 <gpio_set>:
- 80042a4:	6181      	str	r1, [r0, #24]
- 80042a6:	4770      	bx	lr
-
-080042a8 <gpio_toggle>:
- 80042a8:	6943      	ldr	r3, [r0, #20]
- 80042aa:	ea03 0201 	and.w	r2, r3, r1
- 80042ae:	ea21 0103 	bic.w	r1, r1, r3
- 80042b2:	ea41 4102 	orr.w	r1, r1, r2, lsl #16
- 80042b6:	6181      	str	r1, [r0, #24]
- 80042b8:	4770      	bx	lr
-
-080042ba <gpio_mode_setup>:
- 80042ba:	e92d 41f0 	stmdb	sp!, {r4, r5, r6, r7, r8, lr}
- 80042be:	6805      	ldr	r5, [r0, #0]
- 80042c0:	68c4      	ldr	r4, [r0, #12]
- 80042c2:	2600      	movs	r6, #0
- 80042c4:	f04f 0c03 	mov.w	ip, #3
- 80042c8:	fa43 f706 	asr.w	r7, r3, r6
- 80042cc:	07ff      	lsls	r7, r7, #31
- 80042ce:	d50f      	bpl.n	80042f0 <gpio_mode_setup+0x36>
- 80042d0:	0077      	lsls	r7, r6, #1
- 80042d2:	fa0c fe07 	lsl.w	lr, ip, r7
- 80042d6:	ea6f 0e0e 	mvn.w	lr, lr
- 80042da:	fa01 f807 	lsl.w	r8, r1, r7
- 80042de:	ea0e 0505 	and.w	r5, lr, r5
- 80042e2:	ea0e 0404 	and.w	r4, lr, r4
- 80042e6:	fa02 f707 	lsl.w	r7, r2, r7
- 80042ea:	ea48 0505 	orr.w	r5, r8, r5
- 80042ee:	433c      	orrs	r4, r7
- 80042f0:	3601      	adds	r6, #1
- 80042f2:	2e10      	cmp	r6, #16
- 80042f4:	d1e8      	bne.n	80042c8 <gpio_mode_setup+0xe>
- 80042f6:	6005      	str	r5, [r0, #0]
- 80042f8:	60c4      	str	r4, [r0, #12]
- 80042fa:	e8bd 81f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
-
-080042fe <blocking_handler>:
- 80042fe:	e7fe      	b.n	80042fe <blocking_handler>
-
-08004300 <null_handler>:
- 8004300:	4770      	bx	lr
+08004242 <sys_tick_handler>:
+ 8004242:	f000 b82b 	b.w	800429c <sys_tick_handler_broker>
 	...
 
-08004304 <reset_handler>:
- 8004304:	b538      	push	{r3, r4, r5, lr}
- 8004306:	491b      	ldr	r1, [pc, #108]	; (8004374 <reset_handler+0x70>)
- 8004308:	4c1b      	ldr	r4, [pc, #108]	; (8004378 <reset_handler+0x74>)
- 800430a:	481c      	ldr	r0, [pc, #112]	; (800437c <reset_handler+0x78>)
- 800430c:	2200      	movs	r2, #0
- 800430e:	1853      	adds	r3, r2, r1
- 8004310:	4283      	cmp	r3, r0
- 8004312:	d31b      	bcc.n	800434c <reset_handler+0x48>
- 8004314:	4a1a      	ldr	r2, [pc, #104]	; (8004380 <reset_handler+0x7c>)
- 8004316:	2100      	movs	r1, #0
- 8004318:	4293      	cmp	r3, r2
- 800431a:	d31b      	bcc.n	8004354 <reset_handler+0x50>
- 800431c:	4a19      	ldr	r2, [pc, #100]	; (8004384 <reset_handler+0x80>)
- 800431e:	4c1a      	ldr	r4, [pc, #104]	; (8004388 <reset_handler+0x84>)
- 8004320:	6813      	ldr	r3, [r2, #0]
- 8004322:	4d1a      	ldr	r5, [pc, #104]	; (800438c <reset_handler+0x88>)
- 8004324:	f443 7300 	orr.w	r3, r3, #512	; 0x200
- 8004328:	6013      	str	r3, [r2, #0]
- 800432a:	6f53      	ldr	r3, [r2, #116]	; 0x74
- 800432c:	f443 0370 	orr.w	r3, r3, #15728640	; 0xf00000
- 8004330:	6753      	str	r3, [r2, #116]	; 0x74
- 8004332:	42ac      	cmp	r4, r5
- 8004334:	d311      	bcc.n	800435a <reset_handler+0x56>
- 8004336:	4c16      	ldr	r4, [pc, #88]	; (8004390 <reset_handler+0x8c>)
- 8004338:	4d16      	ldr	r5, [pc, #88]	; (8004394 <reset_handler+0x90>)
+08004248 <initSerial>:
+ 8004248:	4b0a      	ldr	r3, [pc, #40]	; (8004274 <initSerial+0x2c>)
+ 800424a:	681a      	ldr	r2, [r3, #0]
+ 800424c:	4b0a      	ldr	r3, [pc, #40]	; (8004278 <initSerial+0x30>)
+ 800424e:	601a      	str	r2, [r3, #0]
+ 8004250:	4b0a      	ldr	r3, [pc, #40]	; (800427c <initSerial+0x34>)
+ 8004252:	681a      	ldr	r2, [r3, #0]
+ 8004254:	4b0a      	ldr	r3, [pc, #40]	; (8004280 <initSerial+0x38>)
+ 8004256:	601a      	str	r2, [r3, #0]
+ 8004258:	4b0a      	ldr	r3, [pc, #40]	; (8004284 <initSerial+0x3c>)
+ 800425a:	681a      	ldr	r2, [r3, #0]
+ 800425c:	4b0a      	ldr	r3, [pc, #40]	; (8004288 <initSerial+0x40>)
+ 800425e:	601a      	str	r2, [r3, #0]
+ 8004260:	4b0a      	ldr	r3, [pc, #40]	; (800428c <initSerial+0x44>)
+ 8004262:	681a      	ldr	r2, [r3, #0]
+ 8004264:	4b0a      	ldr	r3, [pc, #40]	; (8004290 <initSerial+0x48>)
+ 8004266:	601a      	str	r2, [r3, #0]
+ 8004268:	4b0a      	ldr	r3, [pc, #40]	; (8004294 <initSerial+0x4c>)
+ 800426a:	681a      	ldr	r2, [r3, #0]
+ 800426c:	4b0a      	ldr	r3, [pc, #40]	; (8004298 <initSerial+0x50>)
+ 800426e:	601a      	str	r2, [r3, #0]
+ 8004270:	4770      	bx	lr
+ 8004272:	bf00      	nop
+ 8004274:	200007f4 	.word	0x200007f4
+ 8004278:	20000810 	.word	0x20000810
+ 800427c:	200007f0 	.word	0x200007f0
+ 8004280:	20000804 	.word	0x20000804
+ 8004284:	200007ec 	.word	0x200007ec
+ 8004288:	20000808 	.word	0x20000808
+ 800428c:	200007e8 	.word	0x200007e8
+ 8004290:	20000800 	.word	0x20000800
+ 8004294:	200007e4 	.word	0x200007e4
+ 8004298:	2000080c 	.word	0x2000080c
+
+0800429c <sys_tick_handler_broker>:
+ 800429c:	f7ff ffae 	bl	80041fc <application_sys_tick_handler>
+ 80042a0:	f640 0600 	movw	r6, #2048	; 0x800
+ 80042a4:	f2c2 0600 	movt	r6, #8192	; 0x2000
+ 80042a8:	f856 fc08 	ldr.w	pc, [r6, #-8]
+
+080042ac <gpio_set>:
+ 80042ac:	6181      	str	r1, [r0, #24]
+ 80042ae:	4770      	bx	lr
+
+080042b0 <gpio_toggle>:
+ 80042b0:	6943      	ldr	r3, [r0, #20]
+ 80042b2:	ea03 0201 	and.w	r2, r3, r1
+ 80042b6:	ea21 0103 	bic.w	r1, r1, r3
+ 80042ba:	ea41 4102 	orr.w	r1, r1, r2, lsl #16
+ 80042be:	6181      	str	r1, [r0, #24]
+ 80042c0:	4770      	bx	lr
+
+080042c2 <gpio_mode_setup>:
+ 80042c2:	e92d 41f0 	stmdb	sp!, {r4, r5, r6, r7, r8, lr}
+ 80042c6:	6805      	ldr	r5, [r0, #0]
+ 80042c8:	68c4      	ldr	r4, [r0, #12]
+ 80042ca:	2600      	movs	r6, #0
+ 80042cc:	f04f 0c03 	mov.w	ip, #3
+ 80042d0:	fa43 f706 	asr.w	r7, r3, r6
+ 80042d4:	07ff      	lsls	r7, r7, #31
+ 80042d6:	d50f      	bpl.n	80042f8 <gpio_mode_setup+0x36>
+ 80042d8:	0077      	lsls	r7, r6, #1
+ 80042da:	fa0c fe07 	lsl.w	lr, ip, r7
+ 80042de:	ea6f 0e0e 	mvn.w	lr, lr
+ 80042e2:	fa01 f807 	lsl.w	r8, r1, r7
+ 80042e6:	ea0e 0505 	and.w	r5, lr, r5
+ 80042ea:	ea0e 0404 	and.w	r4, lr, r4
+ 80042ee:	fa02 f707 	lsl.w	r7, r2, r7
+ 80042f2:	ea48 0505 	orr.w	r5, r8, r5
+ 80042f6:	433c      	orrs	r4, r7
+ 80042f8:	3601      	adds	r6, #1
+ 80042fa:	2e10      	cmp	r6, #16
+ 80042fc:	d1e8      	bne.n	80042d0 <gpio_mode_setup+0xe>
+ 80042fe:	6005      	str	r5, [r0, #0]
+ 8004300:	60c4      	str	r4, [r0, #12]
+ 8004302:	e8bd 81f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
+
+08004306 <blocking_handler>:
+ 8004306:	e7fe      	b.n	8004306 <blocking_handler>
+
+08004308 <null_handler>:
+ 8004308:	4770      	bx	lr
+	...
+
+0800430c <reset_handler>:
+ 800430c:	b538      	push	{r3, r4, r5, lr}
+ 800430e:	491b      	ldr	r1, [pc, #108]	; (800437c <reset_handler+0x70>)
+ 8004310:	4c1b      	ldr	r4, [pc, #108]	; (8004380 <reset_handler+0x74>)
+ 8004312:	481c      	ldr	r0, [pc, #112]	; (8004384 <reset_handler+0x78>)
+ 8004314:	2200      	movs	r2, #0
+ 8004316:	1853      	adds	r3, r2, r1
+ 8004318:	4283      	cmp	r3, r0
+ 800431a:	d31b      	bcc.n	8004354 <reset_handler+0x48>
+ 800431c:	4a1a      	ldr	r2, [pc, #104]	; (8004388 <reset_handler+0x7c>)
+ 800431e:	2100      	movs	r1, #0
+ 8004320:	4293      	cmp	r3, r2
+ 8004322:	d31b      	bcc.n	800435c <reset_handler+0x50>
+ 8004324:	4a19      	ldr	r2, [pc, #100]	; (800438c <reset_handler+0x80>)
+ 8004326:	4c1a      	ldr	r4, [pc, #104]	; (8004390 <reset_handler+0x84>)
+ 8004328:	6813      	ldr	r3, [r2, #0]
+ 800432a:	4d1a      	ldr	r5, [pc, #104]	; (8004394 <reset_handler+0x88>)
+ 800432c:	f443 7300 	orr.w	r3, r3, #512	; 0x200
+ 8004330:	6013      	str	r3, [r2, #0]
+ 8004332:	6f53      	ldr	r3, [r2, #116]	; 0x74
+ 8004334:	f443 0370 	orr.w	r3, r3, #15728640	; 0xf00000
+ 8004338:	6753      	str	r3, [r2, #116]	; 0x74
  800433a:	42ac      	cmp	r4, r5
- 800433c:	d311      	bcc.n	8004362 <reset_handler+0x5e>
- 800433e:	f7ff ff35 	bl	80041ac <main>
- 8004342:	4c15      	ldr	r4, [pc, #84]	; (8004398 <reset_handler+0x94>)
- 8004344:	4d15      	ldr	r5, [pc, #84]	; (800439c <reset_handler+0x98>)
- 8004346:	42ac      	cmp	r4, r5
- 8004348:	d30f      	bcc.n	800436a <reset_handler+0x66>
- 800434a:	bd38      	pop	{r3, r4, r5, pc}
- 800434c:	5913      	ldr	r3, [r2, r4]
- 800434e:	5053      	str	r3, [r2, r1]
- 8004350:	3204      	adds	r2, #4
- 8004352:	e7dc      	b.n	800430e <reset_handler+0xa>
- 8004354:	6019      	str	r1, [r3, #0]
- 8004356:	3304      	adds	r3, #4
- 8004358:	e7de      	b.n	8004318 <reset_handler+0x14>
- 800435a:	f854 3b04 	ldr.w	r3, [r4], #4
- 800435e:	4798      	blx	r3
- 8004360:	e7e7      	b.n	8004332 <reset_handler+0x2e>
+ 800433c:	d311      	bcc.n	8004362 <reset_handler+0x56>
+ 800433e:	4c16      	ldr	r4, [pc, #88]	; (8004398 <reset_handler+0x8c>)
+ 8004340:	4d16      	ldr	r5, [pc, #88]	; (800439c <reset_handler+0x90>)
+ 8004342:	42ac      	cmp	r4, r5
+ 8004344:	d311      	bcc.n	800436a <reset_handler+0x5e>
+ 8004346:	f7ff ff31 	bl	80041ac <main>
+ 800434a:	4c15      	ldr	r4, [pc, #84]	; (80043a0 <reset_handler+0x94>)
+ 800434c:	4d15      	ldr	r5, [pc, #84]	; (80043a4 <reset_handler+0x98>)
+ 800434e:	42ac      	cmp	r4, r5
+ 8004350:	d30f      	bcc.n	8004372 <reset_handler+0x66>
+ 8004352:	bd38      	pop	{r3, r4, r5, pc}
+ 8004354:	5913      	ldr	r3, [r2, r4]
+ 8004356:	5053      	str	r3, [r2, r1]
+ 8004358:	3204      	adds	r2, #4
+ 800435a:	e7dc      	b.n	8004316 <reset_handler+0xa>
+ 800435c:	6019      	str	r1, [r3, #0]
+ 800435e:	3304      	adds	r3, #4
+ 8004360:	e7de      	b.n	8004320 <reset_handler+0x14>
  8004362:	f854 3b04 	ldr.w	r3, [r4], #4
  8004366:	4798      	blx	r3
- 8004368:	e7e7      	b.n	800433a <reset_handler+0x36>
+ 8004368:	e7e7      	b.n	800433a <reset_handler+0x2e>
  800436a:	f854 3b04 	ldr.w	r3, [r4], #4
  800436e:	4798      	blx	r3
- 8004370:	e7e9      	b.n	8004346 <reset_handler+0x42>
- 8004372:	bf00      	nop
- 8004374:	20000800 	.word	0x20000800
- 8004378:	080043a0 	.word	0x080043a0
+ 8004370:	e7e7      	b.n	8004342 <reset_handler+0x36>
+ 8004372:	f854 3b04 	ldr.w	r3, [r4], #4
+ 8004376:	4798      	blx	r3
+ 8004378:	e7e9      	b.n	800434e <reset_handler+0x42>
+ 800437a:	bf00      	nop
  800437c:	20000800 	.word	0x20000800
- 8004380:	20000814 	.word	0x20000814
- 8004384:	e000ed14 	.word	0xe000ed14
- 8004388:	080043a0 	.word	0x080043a0
- 800438c:	080043a0 	.word	0x080043a0
- 8004390:	080043a0 	.word	0x080043a0
- 8004394:	080043a0 	.word	0x080043a0
- 8004398:	080043a0 	.word	0x080043a0
- 800439c:	080043a0 	.word	0x080043a0
+ 8004380:	080043a8 	.word	0x080043a8
+ 8004384:	20000800 	.word	0x20000800
+ 8004388:	20000814 	.word	0x20000814
+ 800438c:	e000ed14 	.word	0xe000ed14
+ 8004390:	080043a8 	.word	0x080043a8
+ 8004394:	080043a8 	.word	0x080043a8
+ 8004398:	080043a8 	.word	0x080043a8
+ 800439c:	080043a8 	.word	0x080043a8
+ 80043a0:	080043a8 	.word	0x080043a8
+ 80043a4:	080043a8 	.word	0x080043a8

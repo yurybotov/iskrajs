@@ -155,10 +155,6 @@ void cdcacm_data_rx_cb(usbd_device* usbd_dev, uint8_t ep) {
         if(length(&serialIn) < 127) 
             putBufSerial(&serialIn, buf[i]);
     }
-
-    //for (int i = 0; i < len; i++) {
-    //    cdcacm_putc(cdcacm_getc() + 1);
-    //}
 }
 
 // Send packet to USB

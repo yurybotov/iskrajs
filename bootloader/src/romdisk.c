@@ -120,6 +120,7 @@ const uint8_t Iskrajs_h[] = { // cluster 13 sector 52
     "\n"
     "#define BOOTLOADER_VERSION 10000\n"
     "#define APPLICATION_START 0x08004000\n"
+    "#define APPLICATION_RAM 0x20000800\n"
     "\n"
     "#endif\n"
     "\n"

@@ -30,19 +30,19 @@ volatile bool writeEnable = false;
 
 void appJumper(void) {
     // write to RAM address of USB FS handler
-    *((volatile uint32_t*)(RAM_APP_START - 4)) = (uint32_t)otg_fs_isr;
+    *((volatile uint32_t*)(RAM_APP_START - 4)) = (uint32_t)otg_fs_isr_external_broker;
     // write to RAM address of SysTick handler
-    *((volatile uint32_t*)(RAM_APP_START - 8)) = (uint32_t)sys_tick_handler;
+    *((volatile uint32_t*)(RAM_APP_START - 8)) = (uint32_t)sys_tick_handler_external_broker;
     // write to RAM address of USB_SERIAL_SEND
-    *((volatile uint32_t*)(RAM_APP_START - 12)) = (uint32_t)cdcacm_sync + 1;
+    *((volatile uint32_t*)(RAM_APP_START - 12)) = (uint32_t)cdcacm_sync;
     // write to RAM address of USB_SERIAL_RX
-    *((volatile uint32_t*)(RAM_APP_START - 16)) = (uint32_t)cdcacm_getc + 1;
+    *((volatile uint32_t*)(RAM_APP_START - 16)) = (uint32_t)cdcacm_getc;
     // write to RAM address of USB_SERIAL_TX
-    *((volatile uint32_t*)(RAM_APP_START - 20)) = (uint32_t)cdcacm_putc + 1;
+    *((volatile uint32_t*)(RAM_APP_START - 20)) = (uint32_t)cdcacm_putc;
     // write to RAM address of USB_SERIAL_AVAILABLE
-    *((volatile uint32_t*)(RAM_APP_START - 24)) = (uint32_t)cdcacm_in_ready + 1;
+    *((volatile uint32_t*)(RAM_APP_START - 24)) = (uint32_t)cdcacm_in_ready;
     // write to RAM address of USB_SERIAL_READY
-    *((volatile uint32_t*)(RAM_APP_START - 28)) = (uint32_t)cdcacm_out_ready + 1;
+    *((volatile uint32_t*)(RAM_APP_START - 28)) = (uint32_t)cdcacm_out_ready;
 
     cm_disable_interrupts();
 
@@ -74,9 +74,9 @@ void resetJumper(void) {
 
 static void relaxLoop(void) {
     // relocate interrupt vectors
-    cm_disable_interrupts();
-    SCB_VTOR = 0x08000000;
-    cm_enable_interrupts();
+    //cm_disable_interrupts();
+    //SCB_VTOR = 0x08000000;
+    //cm_enable_interrupts();
     // do some blinking when downloading firmware
     showLeds();
     for (int j = 0; j < 15; j++) {
@@ -97,13 +97,45 @@ static void relaxLoop(void) {
 void relaxJumper(void) {
     //systick_block();
     cm_disable_interrupts();
+    systick_block();
     // relocate interrupt vectors
     SCB_VTOR = 0x08000000;
     // replace return address of usb-fs interrupt to relaxLoop
     __asm volatile(
-        "mov r1, %0\n"
-        "str r1, [sp,#96]\n" // return address position in stack
+        "mov r6, %0\n"
+        //"str r6, [sp,#96]\n" // return address position in stack
+        //"str r6, [sp,#104]\n" // return address position in stack 116
+        "str r6, [sp,#104]\n" // return address position in stack
         :
         : "r"(relaxLoop));
     cm_enable_interrupts();
+}
+
+// real usb-fs interrupt handler
+void otg_fs_isr_real_handler(void) { 
+    usbd_poll(usbdDevice);
+}
+
+void otg_fs_isr_local_broker(void) {
+    otg_fs_isr_real_handler();
+}
+
+void otg_fs_isr_external_broker(void) {
+    otg_fs_isr_real_handler();
+}
+// real systick interrupt handler
+extern volatile uint32_t system_millis;
+void sys_tick_real_handler(void) { 
+    if(++system_millis == 100) { // 0.1 sec
+        system_millis = 0;
+        cdcacm_sync();
+    }
+}
+
+void sys_tick_handler_local_broker(void) {
+    sys_tick_real_handler();
+}
+
+void sys_tick_handler_external_broker(void) {
+    sys_tick_real_handler();
 }

@@ -14,9 +14,12 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-void application_sys_tick_handler(void);
+void sys_tick_handler_broker(void);
+
 
 void initSerial(void);
+
+//void (*application_sys_tick_handler)(void);
 
 extern void (*syncSerial)(void);
 extern void (*putSerial)(uint8_t);
