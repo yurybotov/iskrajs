@@ -29,9 +29,9 @@ volatile bool writeEnable = false;
 
 void appJumper(void) {
     // write to RAM address of USB FS handler
-    *((volatile uint32_t*)(RAM_APP_START - 4)) = (uint32_t)otg_fs_isr_external_broker;
+    *((volatile uint32_t*)(RAM_APP_START - 4)) = (uint32_t)otg_fs_isr_broker;
     // write to RAM address of SysTick handler
-    *((volatile uint32_t*)(RAM_APP_START - 8)) = (uint32_t)sys_tick_handler_external_broker;
+    *((volatile uint32_t*)(RAM_APP_START - 8)) = (uint32_t)sys_tick_handler_broker;
     // write to RAM address of USB_SERIAL_SEND
     *((volatile uint32_t*)(RAM_APP_START - 12)) = (uint32_t)cdcacm_sync;
     // write to RAM address of USB_SERIAL_RX

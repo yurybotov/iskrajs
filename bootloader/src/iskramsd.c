@@ -38,10 +38,10 @@ extern uint32_t magic_point;
 #include "usb.h"
 
 // on usb-fs interrupt
-void otg_fs_isr(void) { otg_fs_isr_local_broker(); }
+void otg_fs_isr(void) { otg_fs_isr_broker(); }
 
 // on systick interrupt
-void sys_tick_handler(void) { sys_tick_handler_local_broker(); }
+void sys_tick_handler(void) { sys_tick_handler_broker(); }
 
 static uint8_t usbd_control_buffer[128];
 
