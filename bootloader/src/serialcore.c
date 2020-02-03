@@ -18,7 +18,7 @@ bufSerial serialOut;
 
 // In interrupt solve if needs to send
 void cdcacm_sync(void) {
-    while( serialOut.len > 0) {
+    while (serialOut.len > 0) {
         cdcacm_data_tx_all(usbdDevice);
     }
 }
@@ -30,7 +30,7 @@ void cdcacm_init(void) {
 }
 
 // TX buffer is not full
-bool cdcacm_out_ready(void) { 
+bool cdcacm_out_ready(void) {
     return canWrite(&serialOut);
 }
 

@@ -21,13 +21,13 @@ int16_t (*getSerial)(void);
 bool (*availableSerial)(void);
 bool (*readyToSendSerial)(void);
 
-#define FUNCTION_ADDRESS(res,par,addr) (res (*)(par))(*((uint32_t*)(addr)))
+#define FUNCTION_ADDRESS(res, par, addr) (res(*)(par))(*((uint32_t*)(addr)))
 
 // serial USB CDC ACM initialisation
 void initSerial(void) {
-    syncSerial = FUNCTION_ADDRESS(void, void, APPLICATION_RAM-12);
-    getSerial = FUNCTION_ADDRESS(int16_t, void, APPLICATION_RAM-16);
-    putSerial = FUNCTION_ADDRESS(void, uint8_t, APPLICATION_RAM-20);
-    availableSerial = FUNCTION_ADDRESS(bool, void, APPLICATION_RAM-24);
-    readyToSendSerial = FUNCTION_ADDRESS(bool, void, APPLICATION_RAM-28);
+    syncSerial = FUNCTION_ADDRESS(void, void, APPLICATION_RAM - 12);
+    getSerial = FUNCTION_ADDRESS(int16_t, void, APPLICATION_RAM - 16);
+    putSerial = FUNCTION_ADDRESS(void, uint8_t, APPLICATION_RAM - 20);
+    availableSerial = FUNCTION_ADDRESS(bool, void, APPLICATION_RAM - 24);
+    readyToSendSerial = FUNCTION_ADDRESS(bool, void, APPLICATION_RAM - 28);
 }

@@ -11,11 +11,10 @@
 #ifndef __API_H__
 #define __API_H__
 
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 void sys_tick_handler_broker(void);
-
 
 void initSerial(void);
 

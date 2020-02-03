@@ -27,7 +27,6 @@ void resetJumper(void);
 // jump to "relax" loop - prevent return to user application before rewriting end
 void relaxJumper(void);
 
-
 void external_otg_fs_isr(void);
 
 void otg_fs_isr_real_handler(void);

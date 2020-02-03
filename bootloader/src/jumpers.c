@@ -104,14 +104,14 @@ void relaxJumper(void) {
 }
 
 // real usb-fs interrupt handler
-void otg_fs_isr_real_handler(void) { 
+void otg_fs_isr_real_handler(void) {
     usbd_poll(usbdDevice);
 }
 
 // real systick interrupt handler
 extern volatile uint32_t system_millis;
-void sys_tick_real_handler(void) { 
-    if(++system_millis == 100) { // 0.1 sec
+void sys_tick_real_handler(void) {
+    if (++system_millis == 100) { // 0.1 sec
         system_millis = 0;
         cdcacm_sync();
     }

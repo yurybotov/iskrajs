@@ -20,11 +20,11 @@
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/usb/usbd.h>
 
-#include "systemtick.h"
+#include "cdc.h"
 #include "jumpers.h"
 #include "romdisk.h"
-#include "cdc.h"
 #include "serialcore.h"
+#include "systemtick.h"
 
 #include "depend.h"
 
@@ -78,7 +78,7 @@ int main(void) {
     // otherwise - run application after bootloader init (normal mode)
     if (buttonReleased()) {
         // init systick as 1 kHz
-        systick_setup();        
+        systick_setup();
         appJumper();
     } else {
         while (1)
