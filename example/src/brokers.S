@@ -36,3 +36,5 @@ otg_fs_isr:
     movt r3, #0x2000
     ldr pc,[r3,#-4]
 .endfunc
+
+.ascii "Amperka IskraJS bootloader v.1.0.0"
