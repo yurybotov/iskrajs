@@ -255,7 +255,17 @@ static bool firmwareIsRight = false;
 int romdisk_write(uint32_t lba, const uint8_t *copy_from) {
     // testing firmware structure
     if(lba == START_DATA_SECTOR) {
-        if(((uint32_t*)(copy_from))[0] == 0x20020000) { ////////////////////// todo сделать другие цифры для разных контроллеров
+        if(((uint32_t*)(copy_from))[0] == 
+#ifdef STM32F407VGT6
+        0x20020000
+#endif
+#ifdef STM32F405RGT6
+        0x20020000
+#endif
+#ifdef STM32F411RG
+        0x20010000
+#endif        
+        ) { ////////////////////// todo сделать другие цифры для разных контроллеров
             firmwareIsRight = true;
         } else {
             firmwareIsRight = false;
