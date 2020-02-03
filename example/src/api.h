@@ -16,9 +16,10 @@
 
 void sys_tick_handler_broker(void);
 
-void initSerial(void);
+// you can override this function for sistick access
+void application_sys_tick_handler(void) __attribute__((weak));
 
-//void (*application_sys_tick_handler)(void);
+void initSerial(void);
 
 extern void (*syncSerial)(void);
 extern void (*putSerial)(uint8_t);

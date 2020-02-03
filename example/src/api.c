@@ -31,3 +31,5 @@ void initSerial(void) {
     availableSerial = FUNCTION_ADDRESS(bool, void, APPLICATION_RAM - 24);
     readyToSendSerial = FUNCTION_ADDRESS(bool, void, APPLICATION_RAM - 28);
 }
+
+void application_sys_tick_handler(void) { }
