@@ -20,9 +20,8 @@
 void otg_fs_isr(void) {
     __asm volatile(
         //"cpsid i\n"
-        //"movw r1, #0x0800\n"  // 0x800 - 4 (USB_FS_HANDLER)
-        //"movt r1, #0x2000\n"
-        "ldr r1, =0x20000800\n"
+        "movw r1, #0x0800\n"  // 0x800 - 4 (USB_FS_HANDLER)
+        "movt r1, #0x2000\n"
         "ldr r1,[r1,#-4]\n"
         //"cpsie i\n"
         "mov pc, r1\n");
