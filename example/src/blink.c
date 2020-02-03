@@ -39,4 +39,4 @@ int main(void) {
 }
 
 
-void application_sys_tick_handler(void) { __asm volatile ("nop"); }; 
+void application_sys_tick_handler(void) { /*__asm volatile ("nop");*/ }; 
