@@ -1,3 +1,13 @@
+/*
+ * This file is a part of Iskra JS Arduino SDK.
+ *
+ * Product page: https://amperka.ru/product/iskra-js
+ * © Amperka LLC (https://amperka.com, dev@amperka.com)
+ * 
+ * Author: Yury Botov <by@amperka.com>
+ * License: GPLv3, all text here must be included in any redistribution.
+ */
+
 #include <libopencm3/cm3/cortex.h>
 #include <libopencm3/stm32/flash.h>
 #include <string.h>
@@ -13,26 +23,7 @@ extern volatile bool otherBlock;
 
 #define SECTOR_SIZE 512
 #define SECTOR_COUNT (2048 - 32)
-
-#define BYTES_PER_SECTOR 512
-#define SECTORS_PER_CLUSTER 16
-
-#define RESERVED_SECTORS 1
-
-#define FAT_COPIES 2
-#define SECTORS_PER_FAT 9
-
-//#define ROOT_ENTRIES 512
-#define ROOT_ENTRIES 224
-#define ROOT_ENTRY_LENGTH 32
-
-#define FILEDATA_START_CLUSTER 3
-#define DATA_REGION_SECTOR \
-    (RESERVED_SECTORS + FAT_COPIES*SECTORS_PER_FAT + (ROOT_ENTRIES * ROOT_ENTRY_LENGTH) / BYTES_PER_SECTOR)
-#define FILEDATA_START_SECTOR \
-    (DATA_REGION_SECTOR + (FILEDATA_START_CLUSTER - 2) * SECTORS_PER_CLUSTER)
-
-#define FILEDATA_SECTOR_COUNT (2048 - 32)
+#define START_DATA_SECTOR 56
 
 static const uint8_t BootSector[] = {   // sector 0 cluster 0
     0xeb, 0x3c, 0x90,                                       // code to jump to the bootstrap code
@@ -100,7 +91,7 @@ static const uint8_t BootSector[] = {   // sector 0 cluster 0
 };
 
 const uint8_t Fat[] = { // cluster 1 sector 4 and sector 6
-    0xf8, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xf 
+    0xf8, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
 };
 
 // readme file
@@ -108,14 +99,32 @@ const uint8_t Readme[] = // cluster 12 sector 48
     "Readme\n\n"
     "This is IskraJS bootloader MSD device.\n"
     "Just copy you IskraJS firmware in .bin format to this disk.\n\n"
-    "You firmware must be compiled for ROM start 0x08004000 and RAM start 0x20001000.\n"
-    "Magic addresses for this bootloader:\n"
-    "- firmware USB FS interrupt vector must be set to 0x080002b9;\n"
-    "- readSerialByte address 0x00000000;\n"
-    "- readyToRead address 0x00000000;\n"
-    "- writeSerialByte address 0x00000000;\n"
-    "- readyToWrite address 0x00000000;\n"
+    "You firmware must be compiled for ROM start 0x08004000 and RAM start 0x20000800.\n"
+    "If somthing is wrong: copy/replace `iskrajs.h` from here to you Arduino directory.\n"
+    "\n"
 ;
+
+const uint8_t Iskrajs_h[] = { // cluster 13 sector 52
+    "/*\n"
+    "* This file is a part of Iskra JS Arduino SDK.\n"
+    "*\n"
+    "* Product page: https://amperka.ru/product/iskra-js\n"
+    "* © Amperka LLC (https://amperka.com, dev@amperka.com)\n"
+    "*\n"
+    "* Author: Yury Botov <by@amperka.com>\n"
+    "* License: GPLv3, all text here must be included in any redistribution.\n"
+    "*/\n"
+    "\n"
+    "#ifndef __ISKRAJS_H__\n"
+    "#define __ISKRAJS_H__\n"
+    "\n"
+    "#define BOOTLOADER_VERSION 10000\n"
+    "#define APPLICATION_START 0x08004000\n"
+    "#define APPLICATION_RAM 0x20000800\n"
+    "\n"
+    "#endif\n"
+    "\n"
+};
 
 const uint8_t Root[] = { // cluster 2 sector 8
     // VOLUME
@@ -126,14 +135,13 @@ const uint8_t Root[] = { // cluster 2 sector 8
     0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
 
     // System Volume Information
-    0x42, 0x20, 0x0, 0x49, 0x0, 0x6e, 0x0, 0x66,  
-    0x0, 0x6f, 0x0, 0xf, 0x0, 0x72, 0x72, 0x0,  
-    0x6d, 0x0, 0x61, 0x0, 0x74, 0x0, 0x69, 0x0,  
-    0x6f, 0x0, 0x0, 0x0, 0x6e, 0x0, 0x0, 0x0,  
-    0x1, 0x53, 0x0, 0x79, 0x0, 0x73, 0x0, 0x74,  
-    0x0, 0x65, 0x0, 0xf, 0x0, 0x72, 0x6d, 0x0,  
-    0x20, 0x0, 0x56, 0x0, 0x6f, 0x0, 0x6c, 0x0,  
-    0x75, 0x0, 0x0, 0x0, 0x6d, 0x0, 0x65, 0x0,
+    0x42,' ',0,'I',0,'n',0,'f', 0,'o',0,
+    0xf, 0x0, 0x72, 
+    'r',0,'m',0,'a',0,'t',0,'i',0,'o',0,
+    0x0, 0x0, 'n', 0x0, 0x0, 0x0, 0x1,
+    'S',0,'y',0,'s',0,'t',0,'e', 
+    0x0, 0xf, 0x0, 0x72, 
+    'm',0,' ',0,'V',0,'o',0,'l',0,'u',0,0,0,'m',0,'e',0,
     'S','Y','S','T','E','M','~','1',' ',' ',' ',  
     0x16, // attribute
     0x0, 0xc1, 0x4e, 0x4d, 0x33, 0x50, 0x33, 0x50, 0x0, 0x0, 
@@ -149,30 +157,49 @@ const uint8_t Root[] = { // cluster 2 sector 8
     0x6c, 0x4d, // time  
     0x33, 0x50, // date
     0x4, 0x0, // start cluster
-    /*0x8*/ QBVAL(sizeof(Readme)-1)/*, 0x0, 0x0, 0x0*/ // file size
+    /*0x8*/ QBVAL(sizeof(Readme)-1),/*, 0x0, 0x0, 0x0*/ // file size
+
+    // include file
+    0x41,'i',0,'s',0,'k',0,'r',0,'a', 0x0, 0xf, 0x0, 0x75,
+    'j',0,'s',0, 0x2e,0,'h', 0x0, 0x0, 0x0,  
+    0xff, 0xff, 0x0, 0x0, 0xff, 0xff, 0xff, 0xff, 
+    'I','S','K','R','A','J','S',' ','H',' ',' ',
+    0x20, // attribute
+    0x0, 0x4d, 0xc2, 0x7b, 0x33, 0x50, 0x33, 0x50, 0x0, 0x0, 
+    0xc2, 0x7b, // time  
+    0x33, 0x50, // date
+    0x5, 0x0, // start cluster 
+    QBVAL(sizeof(Iskrajs_h)-1), /*0xe5, 0x0, 0x0, 0x0*/ // file size
 };
 
 const uint8_t Dir[] = { // cluster 10 sector 40
-    0x2e, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,  
-    0x20, 0x20, 0x20, 0x10, 0x0, 0xc1, 0x4e, 0x4d,  
-    0x33, 0x50, 0x33, 0x50, 0x0, 0x0, 0x4f, 0x4d,  
-    0x33, 0x50, 0x2, 0x0, 0x0, 0x0, 0x0, 0x0,  
-    0x2e, 0x2e, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,  
-    0x20, 0x20, 0x20, 0x10, 0x0, 0xc1, 0x4e, 0x4d,  
-    0x33, 0x50, 0x33, 0x50, 0x0, 0x0, 0x4f, 0x4d,  
-    0x33, 0x50, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,  
-    0x42, 0x47, 0x0, 0x75, 0x0, 0x69, 0x0, 0x64,  
+    0x2e, ' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+    0x10, // attribute
+    0x0, 0xc1, 0x4e, 0x4d, 0x33, 0x50, 0x33, 0x50, 0x0, 0x0,
+    0x4f, 0x4d, // time
+    0x33, 0x50, // date
+    0x2, 0x0, // start sector
+    0x0, 0x0, 0x0, 0x0, // file size
+    0x2e, ' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',
+    0x10, // attribute
+    0x0, 0xc1, 0x4e, 0x4d, 0x33, 0x50, 0x33, 0x50, 0x0, 0x0,
+    0x4f, 0x4d, // time
+    0x33, 0x50, // date,
+    0x0, 0x0, // start sector
+    0x0, 0x0, 0x0, 0x0, // file size
+    0x42,'G',0,'u',0,'i',0,'d',  
     0x0, 0x0, 0x0, 0xf, 0x0, 0xff, 0xff, 0xff,  
     0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,  
     0xff, 0xff, 0x0, 0x0, 0xff, 0xff, 0xff, 0xff,  
-    0x1, 0x49, 0x0, 0x6e, 0x0, 0x64, 0x0, 0x65,  
-    0x0, 0x78, 0x0, 0xf, 0x0, 0xff, 0x65, 0x0,  
-    0x72, 0x0, 0x56, 0x0, 0x6f, 0x0, 0x6c, 0x0,  
-    0x75, 0x0, 0x0, 0x0, 0x6d, 0x0, 0x65, 0x0,  
-    0x49, 0x4e, 0x44, 0x45, 0x58, 0x45, 0x7e, 0x31,  
-    0x20, 0x20, 0x20, 0x20, 0x0, 0xc4, 0x4e, 0x4d,  
-    0x33, 0x50, 0x33, 0x50, 0x0, 0x0, 0x4f, 0x4d,  
-    0x33, 0x50, 0x3, 0x0, 0x4c, 0x0, 0x0, 0x0
+    0x1,'I',0,'n',0,'d',0,'e',0,'x', 0x0, 0xf, 0x0, 0xff,
+    'e',0,'r',0,'V',0,'o',0,'l',0,'u',0,0,0,'m',0,'e',0,
+    'I','N','D','E','X','E','~','1',' ',' ',' ',
+    0x20, // attribute
+    0x0, 0xc4, 0x4e, 0x4d, 0x33, 0x50, 0x33, 0x50, 0x0, 0x0,
+    0x4f, 0x4d, // time
+    0x33, 0x50, // date
+    0x3, 0x0, // start cluster
+    0x4c, 0x0, 0x0, 0x0 // file size
 };
 
 const uint8_t Guid[] = { // cluster 11 sector 44
@@ -183,9 +210,9 @@ const uint8_t Guid[] = { // cluster 11 sector 44
     '9', 0, 'D', 0, '5', 0, '4', 0, 'F', 0, '}', 0
 };
 
-// work area: cluster 13 sector 52
+// work area: cluster 14 sector 56
 
-static uint8_t *romdata = (uint8_t *)APP_START; // 1 sector of flash, in 0 sector we has bootloader
+static uint8_t *romdata = (uint8_t *)ROM_APP_START; // 1 sector of flash, in 0 sector we has bootloader
 
 int romdisk_init(void) {
     return 0;
@@ -213,6 +240,9 @@ int romdisk_read(uint32_t lba, uint8_t *copy_to) {
     case 48: // readme file
         memcpy(copy_to, Readme, sizeof(Readme));
         break;
+    case 52: // include file for Arduino API
+        memcpy(copy_to, Iskrajs_h, sizeof(Iskrajs_h));
+        break;    
     default:
         break;
     }
@@ -220,67 +250,81 @@ int romdisk_read(uint32_t lba, uint8_t *copy_to) {
 }
 
 static uint8_t shift = 0;
+static bool firmwareIsRight = false;
 
 int romdisk_write(uint32_t lba, const uint8_t *copy_from) {
-    if (lba >= 52) {
-
-        flash_unlock();
-
-        switch (lba - 52) {
-        case 0: /*clear sector 1*/
-            otherBlock = true;
-            flash_erase_sector(1, 0);
-            relaxJumper();
-            break;
-        case 32: /*clear sector 2*/
-            otherBlock = true;
-            flash_erase_sector(2, 0);
-            break;
-        case 64: /*clear sector 3*/
-            otherBlock = true;
-            flash_erase_sector(3, 0);
-            break;
-        case 96: /*clear sector 4*/
-            otherBlock = true;
-            flash_erase_sector(4, 0);
-            break;
-        case 224: /*clear sector 5*/
-            otherBlock = true;
-            flash_erase_sector(5, 0);
-            break;
-        case 480: /*clear sector 6*/
-            otherBlock = true;
-            flash_erase_sector(6, 0);
-            break;
-        case 736: /*clear sector 7*/
-            otherBlock = true;
-            flash_erase_sector(7, 0);
-            break;
-        case 992: /*clear sector 8*/
-            otherBlock = true;
-            flash_erase_sector(8, 0);
-            break;
-        case 1248: /*clear sector 9*/
-            otherBlock = true;
-            flash_erase_sector(9, 0);
-            break;
-        case 1504: /*clear sector 10*/
-            otherBlock = true;
-            flash_erase_sector(10, 0);
-            break;
-        case 1760: /*clear sector 11*/
-            otherBlock = true;
-            flash_erase_sector(11, 0);
-            break;
-        default:
-            break;
+    // testing firmware structure
+    if(lba == START_DATA_SECTOR) {
+        if(((uint32_t*)(copy_from))[0] == 0x20020000) { ////////////////////// todo сделать другие цифры для разных контроллеров
+            firmwareIsRight = true;
+        } else {
+            firmwareIsRight = false;
         }
+        relaxJumper();
+    }
+    if (lba >= START_DATA_SECTOR) {
+        if(firmwareIsRight) { // if firmware structure is ok
 
-        if (lba >= 52 && lba < SECTOR_COUNT) {
-            flash_program((uint32_t)romdata + (lba - 52) * SECTOR_SIZE, copy_from, SECTOR_SIZE);
+            flash_unlock();
+
+            switch (lba - START_DATA_SECTOR) {
+            case 0: /*clear sector 1*/
+                otherBlock = true;
+                flash_erase_sector(1, 0);
+                break;
+            case 32: /*clear sector 2*/
+                otherBlock = true;
+                flash_erase_sector(2, 0);
+                break;
+            case 64: /*clear sector 3*/
+                otherBlock = true;
+                flash_erase_sector(3, 0);
+                break;
+            case 96: /*clear sector 4*/
+                otherBlock = true;
+                flash_erase_sector(4, 0);
+                break;
+            case 224: /*clear sector 5*/
+                otherBlock = true;
+                flash_erase_sector(5, 0);
+                break;
+            case 480: /*clear sector 6*/
+                otherBlock = true;
+                flash_erase_sector(6, 0);
+                break;
+            case 736: /*clear sector 7*/
+                otherBlock = true;
+                flash_erase_sector(7, 0);
+                break;
+#ifndef STM32F411RG 
+            case 992: /*clear sector 8*/
+                otherBlock = true;
+                flash_erase_sector(8, 0);
+                break;
+            case 1248: /*clear sector 9*/
+                otherBlock = true;
+                flash_erase_sector(9, 0);
+                break;
+            case 1504: /*clear sector 10*/
+                otherBlock = true;
+                flash_erase_sector(10, 0);
+                break;
+            case 1760: /*clear sector 11*/
+                otherBlock = true;
+                flash_erase_sector(11, 0);
+                break;
+#endif // STM32F411RG 
+            default:
+                break;
+            }
+
+            if (lba >= START_DATA_SECTOR && lba < SECTOR_COUNT) {
+                flash_program((uint32_t)romdata + (lba - START_DATA_SECTOR) * SECTOR_SIZE, copy_from, SECTOR_SIZE);
+            }
+
+            flash_lock();
         }
-
-        flash_lock();
+        // else do not write bad firmware
     }
     return 0;
 }

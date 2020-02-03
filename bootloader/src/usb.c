@@ -1,3 +1,13 @@
+/*
+ * This file is a part of Iskra JS Arduino SDK.
+ *
+ * Product page: https://amperka.ru/product/iskra-js
+ * © Amperka LLC (https://amperka.com, dev@amperka.com)
+ * 
+ * Author: Yury Botov <by@amperka.com>
+ * License: GPLv3, all text here must be included in any redistribution.
+ */
+
 #include <stdlib.h>
 
 #include <libopencm3/cm3/scb.h>
@@ -34,12 +44,12 @@ extern const struct usb_interface_descriptor msc_iface[];
 
 // Join all interfaces
 static const struct usb_interface ifaces[] = {
-	// MSD interface
+    // MSD interface
     {
         .num_altsetting = 1,
         .altsetting = msc_iface,
     },
-	// CDC ACM interface
+    // CDC ACM interface
     {
         .num_altsetting = 1,
         .iface_assoc = iadcdc_descr,
@@ -68,5 +78,5 @@ const struct usb_config_descriptor config_descr = {
 const char* usb_strings[] = {
     "Amperka", // supplier
     "IskraJS", // product
-    "Loader", // function 
+    "Loader", // function
 };

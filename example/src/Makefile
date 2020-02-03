@@ -1,10 +1,11 @@
 PROJECT = blink
 BUILD_DIR = bin
 
-SHARED_DIR =
+SHARED_DIR = ./../../common
 CFILES = blink.c
-#CFILES += api.c
-#AFILES += api-asm.S
+CFILES += depend.c
+CFILES += api.c
+AFILES += brokers.S
 
 # TODO - you will need to edit these two lines!
 DEVICE=stm32f407vgt6

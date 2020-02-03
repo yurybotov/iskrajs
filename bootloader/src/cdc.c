@@ -1,11 +1,26 @@
+/*
+ * This file is a part of Iskra JS Arduino SDK.
+ *
+ * Product page: https://amperka.ru/product/iskra-js
+ * © Amperka LLC (https://amperka.com, dev@amperka.com)
+ * 
+ * Author: Yury Botov <by@amperka.com>
+ * License: GPLv3, all text here must be included in any redistribution.
+ */
+
 #include <stdlib.h>
 
 #include <libopencm3/cm3/scb.h>
 
 #include "usb.h"
+#include "cdc.h"
+#include "serialcore.h"
 #include "serialbuf.h"
 
 extern usbd_device* usbdDevice;
+
+extern bufSerial serialIn;
+extern bufSerial serialOut;
 
 /*
  * This notification endpoint isn't implemented. According to CDC spec it's
@@ -13,7 +28,7 @@ extern usbd_device* usbdDevice;
  * Linux cdc_acm driver.
  */
 static const struct usb_endpoint_descriptor comm_endp[] = { { 
-	.bLength = USB_DT_ENDPOINT_SIZE,
+    .bLength = USB_DT_ENDPOINT_SIZE,
     .bDescriptorType = USB_DT_ENDPOINT,
     .bEndpointAddress = 0x84,
     .bmAttributes = USB_ENDPOINT_ATTR_INTERRUPT,
@@ -48,53 +63,53 @@ static const struct {
         .bDescriptorSubtype = USB_CDC_TYPE_HEADER,
         .bcdCDC = 0x0110 },
     .call_mgmt = { 
-		.bFunctionLength = sizeof(struct usb_cdc_call_management_descriptor), 
-		.bDescriptorType = CS_INTERFACE, 
-		.bDescriptorSubtype = USB_CDC_TYPE_CALL_MANAGEMENT, 
-		.bmCapabilities = 0, .bDataInterface = 1 },
+        .bFunctionLength = sizeof(struct usb_cdc_call_management_descriptor), 
+        .bDescriptorType = CS_INTERFACE, 
+        .bDescriptorSubtype = USB_CDC_TYPE_CALL_MANAGEMENT, 
+        .bmCapabilities = 0, .bDataInterface = 1 },
     .acm = { 
-		.bFunctionLength = sizeof(struct usb_cdc_acm_descriptor), 
-		.bDescriptorType = CS_INTERFACE, 
-		.bDescriptorSubtype = USB_CDC_TYPE_ACM, 
-		.bmCapabilities = 0 },
+        .bFunctionLength = sizeof(struct usb_cdc_acm_descriptor), 
+        .bDescriptorType = CS_INTERFACE, 
+        .bDescriptorSubtype = USB_CDC_TYPE_ACM, 
+        .bmCapabilities = 0 },
     .cdc_union = { 
-		.bFunctionLength = sizeof(struct usb_cdc_union_descriptor), 
-		.bDescriptorType = CS_INTERFACE, 
-		.bDescriptorSubtype = USB_CDC_TYPE_UNION, 
-		.bControlInterface = 2, 
-		.bSubordinateInterface0 = 1 }
+        .bFunctionLength = sizeof(struct usb_cdc_union_descriptor), 
+        .bDescriptorType = CS_INTERFACE, 
+        .bDescriptorSubtype = USB_CDC_TYPE_UNION, 
+        .bControlInterface = 2, 
+        .bSubordinateInterface0 = 1 }
 };
 
 const struct usb_iface_assoc_descriptor iadcdc_descr[] = { { 
-	.bLength = USB_DT_INTERFACE_ASSOCIATION_SIZE,
-	.bDescriptorType = USB_DT_INTERFACE_ASSOCIATION,
-	.bFirstInterface = 1,
-	.bInterfaceCount = 2,
-	.bFunctionClass = USB_CLASS_CDC,
-	.bFunctionSubClass = USB_CDC_SUBCLASS_ACM,
-	.bFunctionProtocol = USB_CDC_PROTOCOL_AT,
-	.iFunction = 0 
+    .bLength = USB_DT_INTERFACE_ASSOCIATION_SIZE,
+    .bDescriptorType = USB_DT_INTERFACE_ASSOCIATION,
+    .bFirstInterface = 1,
+    .bInterfaceCount = 2,
+    .bFunctionClass = USB_CLASS_CDC,
+    .bFunctionSubClass = USB_CDC_SUBCLASS_ACM,
+    .bFunctionProtocol = USB_CDC_PROTOCOL_AT,
+    .iFunction = 0 
 } };
 
 const struct usb_interface_descriptor comm_iface[] = { { 
-	.bLength = USB_DT_INTERFACE_SIZE,
-	.bDescriptorType = USB_DT_INTERFACE,
-	.bInterfaceNumber = 1,
-	.bAlternateSetting = 0,
-	.bNumEndpoints = 1,
-	.bInterfaceClass = USB_CLASS_CDC,
-	.bInterfaceSubClass = USB_CDC_SUBCLASS_ACM,
-	.bInterfaceProtocol = USB_CDC_PROTOCOL_AT,
-	.iInterface = 0,
+    .bLength = USB_DT_INTERFACE_SIZE,
+    .bDescriptorType = USB_DT_INTERFACE,
+    .bInterfaceNumber = 1,
+    .bAlternateSetting = 0,
+    .bNumEndpoints = 1,
+    .bInterfaceClass = USB_CLASS_CDC,
+    .bInterfaceSubClass = USB_CDC_SUBCLASS_ACM,
+    .bInterfaceProtocol = USB_CDC_PROTOCOL_AT,
+    .iInterface = 0,
 
-	.endpoint = comm_endp,
+    .endpoint = comm_endp,
 
-	.extra = &cdcacm_functional_descriptors,
-	.extralen = sizeof(cdcacm_functional_descriptors) 
+    .extra = &cdcacm_functional_descriptors,
+    .extralen = sizeof(cdcacm_functional_descriptors) 
 } };
 
 const struct usb_interface_descriptor data_iface[] = { { 
-	.bLength = USB_DT_INTERFACE_SIZE,
+    .bLength = USB_DT_INTERFACE_SIZE,
     .bDescriptorType = USB_DT_INTERFACE,
     .bInterfaceNumber = 2,
     .bAlternateSetting = 0,
@@ -130,39 +145,25 @@ static enum usbd_request_return_codes cdcacm_control_request(
     return USBD_REQ_NOTSUPP;
 }
 
-bufSerial serialIn;
-bufSerial serialOut;
-
-static void cdcacm_data_tx_all(usbd_device* usbd_dev) {
-	char buf[64];
-	int len = ( serialOut.len > 64)? 64 : serialOut.len;
-	for (int i = 0; i < len; i++) buf[i] = (char)getBufSerial(&serialOut);
-	usbd_ep_write_packet(usbd_dev, 0x83, buf, len);
-}
-
-void cdcacm_init(void) { initBufSerial(&serialIn); initBufSerial(&serialOut); }
-
-bool cdcacm_out_ready(void) { return canWrite(&serialOut); }
-
-void cdcacm_putc(uint8_t c) { putBufSerial(&serialOut, c); if(serialOut.len > 60) { cdcacm_data_tx_all( usbdDevice); } }
-
-bool cdcacm_in_ready(void) { return canRead(&serialIn); }
-
-int cdcacm_getc(void) { return getBufSerial(&serialIn); }
-
-static void cdcacm_data_rx_cb(usbd_device* usbd_dev, uint8_t ep) {
+void cdcacm_data_rx_cb(usbd_device* usbd_dev, uint8_t ep) {
     (void)ep;
 
     char buf[64];
     int len = usbd_ep_read_packet(usbd_dev, 0x03, buf, 64);
 
     for (int i = 0; i < len; i++) {
-        putBufSerial(&serialIn, buf[i] + 1);
+        if(length(&serialIn) < 127) 
+            putBufSerial(&serialIn, buf[i]);
     }
+}
 
-	for (int i = 0; i < len; i++) {
-        cdcacm_putc( cdcacm_getc()+1);
-    }
+// Send packet to USB
+void cdcacm_data_tx_all(usbd_device* usbd_dev) {
+    char buf[64];
+    int len = (serialOut.len > 60) ? 60 : serialOut.len;
+    for (int i = 0; i < len; i++)
+        buf[i] = (char)getBufSerial(&serialOut);
+    usbd_ep_write_packet(usbd_dev, 0x83, buf, len);
 }
 
 void cdcacm_set_config(usbd_device* usbd_dev, uint16_t wValue) {
