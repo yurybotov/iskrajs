@@ -38,16 +38,10 @@ extern uint32_t magic_point;
 #include "usb.h"
 
 // on usb-fs interrupt
-void otg_fs_isr(void) { usbd_poll(usbdDevice); }
+void otg_fs_isr(void) { /*cm_enable_interrupts();*/  otg_fs_isr_local_broker(); }
 
 // on systick interrupt
-extern volatile uint32_t system_millis;
-void sys_tick_handler(void) { 
-    if(++system_millis == 100) { // 0.1 sec
-        system_millis = 0;
-        cdcacm_sync();
-    }
-}
+void sys_tick_handler(void) { /*cm_enable_interrupts();*/ sys_tick_handler_local_broker(); }
 
 static uint8_t usbd_control_buffer[128];
 

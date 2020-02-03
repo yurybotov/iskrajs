@@ -100,18 +100,27 @@ const uint8_t Readme[] = // cluster 12 sector 48
     "This is IskraJS bootloader MSD device.\n"
     "Just copy you IskraJS firmware in .bin format to this disk.\n\n"
     "You firmware must be compiled for ROM start 0x08004000 and RAM start 0x20000800.\n"
-    "Magic addresses for this bootloader:\n"
-    "- firmware USB FS interrupt vector must be set to 0x080001ad;\n"
     "If somthing is wrong: copy/replace `iskrajs.h` from here to you Arduino directory.\n"
     "\n"
 ;
 
 const uint8_t Iskrajs_h[] = { // cluster 13 sector 52
+    "/*\n"
+    "* This file is a part of Iskra JS Arduino SDK.\n"
+    "*\n"
+    "* Product page: https://amperka.ru/product/iskra-js\n"
+    "* © Amperka LLC (https://amperka.com, dev@amperka.com)\n"
+    "*\n"
+    "* Author: Yury Botov <by@amperka.com>\n"
+    "* License: GPLv3, all text here must be included in any redistribution.\n"
+    "*/\n"
+    "\n"
     "#ifndef __ISKRAJS_H__\n"
     "#define __ISKRAJS_H__\n"
     "\n"
     "#define BOOTLOADER_VERSION 10000\n"
-    "#define USB_FS_HANDLER 0x080001ad\n"
+    "#define APPLICATION_START 0x08004000\n"
+    "#define APPLICATION_RAM 0x20000800\n"
     "\n"
     "#endif\n"
     "\n"
@@ -246,11 +255,10 @@ static bool firmwareIsRight = false;
 int romdisk_write(uint32_t lba, const uint8_t *copy_from) {
     // testing firmware structure
     if(lba == START_DATA_SECTOR) {
-        if(((uint32_t*)(copy_from))[0] == 0x20020000) {
+        if(((uint32_t*)(copy_from))[0] == 0x20020000) { ////////////////////// todo сделать другие цифры для разных контроллеров
             firmwareIsRight = true;
         } else {
             firmwareIsRight = false;
-            //relaxJumper(); // for reboot after bad firmware downloading 
         }
         relaxJumper();
     }
@@ -263,7 +271,6 @@ int romdisk_write(uint32_t lba, const uint8_t *copy_from) {
             case 0: /*clear sector 1*/
                 otherBlock = true;
                 flash_erase_sector(1, 0);
-                //relaxJumper();
                 break;
             case 32: /*clear sector 2*/
                 otherBlock = true;

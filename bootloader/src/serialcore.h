@@ -25,6 +25,6 @@ void cdcacm_putc(uint8_t c);
 
 bool cdcacm_in_ready(void);
 
-int cdcacm_getc(void);
+int16_t cdcacm_getc(void);
 
 #endif

@@ -23,11 +23,14 @@
 
 int main(void) {
     SCB_VTOR = APPLICATION_START;
+    initSerial();
     cm_enable_interrupts();
 
     showLeds();
     while (1) {
-        toggleLeds();
+        toggleLeds();   
+        if(availableSerial())
+            putSerial(getSerial()+1);
         for (int i = 0; i < DELAY; i++) {
             __asm__("nop");
         }
@@ -35,6 +38,5 @@ int main(void) {
     return 0;
 }
 
-void application_sys_tick_handler(void) {
-    __asm volatile ("nop");
-}
+
+void application_sys_tick_handler(void) { __asm volatile ("nop"); }; 

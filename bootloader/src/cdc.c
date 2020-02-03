@@ -152,12 +152,18 @@ void cdcacm_data_rx_cb(usbd_device* usbd_dev, uint8_t ep) {
     int len = usbd_ep_read_packet(usbd_dev, 0x03, buf, 64);
 
     for (int i = 0; i < len; i++) {
-        putBufSerial(&serialIn, buf[i] + 1);
+        if(length(&serialIn) < 127) 
+            putBufSerial(&serialIn, buf[i]);
     }
+}
 
-    for (int i = 0; i < len; i++) {
-        cdcacm_putc(cdcacm_getc() + 1);
-    }
+// Send packet to USB
+void cdcacm_data_tx_all(usbd_device* usbd_dev) {
+    char buf[64];
+    int len = (serialOut.len > 60) ? 60 : serialOut.len;
+    for (int i = 0; i < len; i++)
+        buf[i] = (char)getBufSerial(&serialOut);
+    usbd_ep_write_packet(usbd_dev, 0x83, buf, len);
 }
 
 void cdcacm_set_config(usbd_device* usbd_dev, uint16_t wValue) {
