@@ -12,6 +12,7 @@ CFILES += msc.c
 CFILES += cdc.c
 CFILES += usb.c
 CFILES += systemtick.c
+AFILES += brokers.S
 
 # TODO - you will need to edit these two lines!
 DEVICE=stm32f407vgt6

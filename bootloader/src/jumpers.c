@@ -20,7 +20,6 @@
 #include "depend.h"
 
 extern usbd_device* usbdDevice;
-//extern void otg_fs_isr(void);
 
 // flag: "started next block writing" - increase relaxLoop duration
 volatile bool otherBlock = false;
@@ -73,10 +72,6 @@ void resetJumper(void) {
 }
 
 static void relaxLoop(void) {
-    // relocate interrupt vectors
-    //cm_disable_interrupts();
-    //SCB_VTOR = 0x08000000;
-    //cm_enable_interrupts();
     // do some blinking when downloading firmware
     showLeds();
     for (int j = 0; j < 15; j++) {
@@ -95,17 +90,14 @@ static void relaxLoop(void) {
 }
 
 void relaxJumper(void) {
-    //systick_block();
     cm_disable_interrupts();
     systick_block();
     // relocate interrupt vectors
     SCB_VTOR = 0x08000000;
     // replace return address of usb-fs interrupt to relaxLoop
     __asm volatile(
-        "mov r6, %0\n"
-        //"str r6, [sp,#96]\n" // return address position in stack
-        //"str r6, [sp,#104]\n" // return address position in stack 116
-        "str r6, [sp,#104]\n" // return address position in stack
+        "mov r3, %0\n"
+        "str r3, [sp,#136]\n" // return address position in stack
         :
         : "r"(relaxLoop));
     cm_enable_interrupts();
@@ -116,13 +108,6 @@ void otg_fs_isr_real_handler(void) {
     usbd_poll(usbdDevice);
 }
 
-void otg_fs_isr_local_broker(void) {
-    otg_fs_isr_real_handler();
-}
-
-void otg_fs_isr_external_broker(void) {
-    otg_fs_isr_real_handler();
-}
 // real systick interrupt handler
 extern volatile uint32_t system_millis;
 void sys_tick_real_handler(void) { 
@@ -130,12 +115,4 @@ void sys_tick_real_handler(void) {
         system_millis = 0;
         cdcacm_sync();
     }
-}
-
-void sys_tick_handler_local_broker(void) {
-    sys_tick_real_handler();
-}
-
-void sys_tick_handler_external_broker(void) {
-    sys_tick_real_handler();
 }
