@@ -102,11 +102,11 @@ def copyFirmware(src, dst):
 def main():
     if len(sys.argv) != 2:
         if platform.system() == 'Windows':
-            print('Usage details: stmloader.py x:\\filepath\\filename.bin')
+            print('Usage details: iskraloader.py x:\\filepath\\filename.bin')
         elif platform.system() == 'Linux':
-            print('Usage details: stmloader.py /filepath/filename.bin')
+            print('Usage details: iskraloader.py /filepath/filename.bin')
         elif platform.system() == 'Darwin':
-            print('Usage details: stmloader.py /filepath/filename.bin')
+            print('Usage details: iskraloader.py /filepath/filename.bin')
         else:
             print('Error: unknown OS platform')
         sys.exit(1)
