@@ -1,0 +1,5 @@
+name=Amperka IskraJS Boards
+version=0.1.0
+
+
+

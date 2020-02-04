@@ -1,0 +1,6 @@
+menu.
+
+iskrajs.name=IskraJS
+
+
+iskrajsmini.name=IskraJS Mini
