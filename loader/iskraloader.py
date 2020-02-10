@@ -10,7 +10,7 @@
 # License: GPLv3, all text here must be included in any redistribution.
 #
 
-# STM32 ISKRAJS board firmware downloader
+# STM32 ISKRAJS board firmware downloader v.0.1.0
 # On board must be USB MSD bootloader
 # Use: python3 iskraloader.py firmwarepath/firmwarename.bin
 

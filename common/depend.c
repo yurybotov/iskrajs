@@ -14,7 +14,7 @@ void initPins() {
 #ifdef STM32F407VGT6
     rcc_periph_clock_enable(RCC_GPIOD); // leds
     rcc_periph_clock_enable(RCC_GPIOA); // button A0 and usb PA11 PA12
-    gpio_mode_setup(GPIOA, GPIO_MODE_INPUT, GPIO_PUPD_PULLDOWN, GPIO0);
+    gpio_mode_setup(GPIOA, GPIO_MODE_INPUT, GPIO_PUPD_PULLDOWN, GPIO0);   
 #endif
 #ifdef STM32F405RGT6
     rcc_periph_clock_enable(RCC_GPIOC); // button C4
@@ -27,19 +27,17 @@ void initPins() {
     rcc_periph_clock_enable(RCC_GPIOA); // usb PA11 PA12
     gpio_mode_setup(GPIOB, GPIO_MODE_INPUT, GPIO_PUPD_PULLDOWN, GPIO1);
 #endif
-    gpio_mode_setup(GPIOA, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO11 | GPIO12);
-    gpio_set_af(GPIOA, GPIO_AF10, GPIO11 | GPIO12);
+    gpio_mode_setup(GPIOA, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO11 | GPIO12); // usb
+    gpio_set_af(GPIOA, GPIO_AF10, GPIO11 | GPIO12); 
 }
 
 void showLeds() {
 #ifdef STM32F407VGT6
-    gpio_mode_setup(GPIOD, GPIO_MODE_OUTPUT,
-        GPIO_PUPD_NONE, GPIO12 | GPIO13 | GPIO14 | GPIO15);
+    gpio_mode_setup(GPIOD, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO12 | GPIO13 | GPIO14 | GPIO15);
     gpio_set(GPIOD, GPIO12 | GPIO14);
 #endif
 #ifdef STM32F405RGT6
-    gpio_mode_setup(GPIOB, GPIO_MODE_OUTPUT,
-        GPIO_PUPD_NONE, GPIO6 | GPIO7);
+    gpio_mode_setup(GPIOB, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO6 | GPIO7);
     gpio_set(GPIOB, GPIO6);
 #endif
 #ifdef STM32F411RG
