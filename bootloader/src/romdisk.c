@@ -398,7 +398,7 @@ int romdisk_write(uint32_t lba, const uint8_t* copy_from) {
                 otherBlock = true;
                 flash_erase_sector(11, 0);
                 break;
-#endif // STM32F411RG
+#endif // STM32F411RE
             default:
                 break;
             }

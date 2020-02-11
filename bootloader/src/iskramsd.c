@@ -46,8 +46,13 @@ void sys_tick_handler(void) { sys_tick_handler_broker(); }
 static uint8_t usbd_control_buffer[128];
 
 int main(void) {
+#ifdef STM32F411RE
+    // clock initialisation 84MHz on 8MHz quartz (411)
+    rcc_clock_setup_pll(&rcc_hse_8mhz_3v3[RCC_CLOCK_3V3_84MHZ]);
+#else
     // clock initialisation 168MHz on 8MHz quartz (405/407)
     rcc_clock_setup_pll(&rcc_hse_8mhz_3v3[RCC_CLOCK_3V3_168MHZ]);
+#endif
 
     // power-on usb-fs, leds and button pins
     rcc_periph_clock_enable(RCC_OTGFS);
