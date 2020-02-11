@@ -18,8 +18,7 @@
 extern volatile bool otherBlock;
 
 #define WBVAL(x) ((x)&0xFF), (((x) >> 8) & 0xFF)
-#define QBVAL(x) \
-    ((x)&0xFF), (((x) >> 8) & 0xFF), (((x) >> 16) & 0xFF), (((x) >> 24) & 0xFF)
+#define QBVAL(x) ((x)&0xFF), (((x) >> 8) & 0xFF), (((x) >> 16) & 0xFF), (((x) >> 24) & 0xFF)
 
 #define SECTOR_SIZE 512
 #define SECTOR_COUNT (2048 - 32)
