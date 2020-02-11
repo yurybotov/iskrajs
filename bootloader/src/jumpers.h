@@ -27,14 +27,11 @@ void resetJumper(void);
 // jump to "relax" loop - prevent return to user application before rewriting end
 void relaxJumper(void);
 
-
 void external_otg_fs_isr(void);
 
 void otg_fs_isr_real_handler(void);
-void otg_fs_isr_local_broker(void);
-void otg_fs_isr_external_broker(void);
+void otg_fs_isr_broker(void);
 void sys_tick_real_handler(void);
-void sys_tick_handler_local_broker(void);
-void sys_tick_handler_external_broker(void);
+void sys_tick_handler_broker(void);
 
 #endif

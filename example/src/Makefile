@@ -8,9 +8,9 @@ CFILES += api.c
 AFILES += brokers.S
 
 # TODO - you will need to edit these two lines!
-DEVICE=stm32f407vgt6
+#DEVICE=stm32f407vgt6
 #DEVICE=stm32f405rgt6
-#DEVICE=stm32f411re 		#for stm32f411ceu...
+DEVICE=stm32f411re
 
 OOCD_FILE = board/stm32f4discovery.cfg
 #OOCD_FILE = board/stm32iskrajs.cfg

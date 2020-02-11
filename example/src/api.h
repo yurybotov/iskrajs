@@ -11,15 +11,15 @@
 #ifndef __API_H__
 #define __API_H__
 
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 void sys_tick_handler_broker(void);
 
+// you can override this function for sistick access
+void application_sys_tick_handler(void) __attribute__((weak));
 
 void initSerial(void);
-
-//void (*application_sys_tick_handler)(void);
 
 extern void (*syncSerial)(void);
 extern void (*putSerial)(uint8_t);

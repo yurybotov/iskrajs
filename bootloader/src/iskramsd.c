@@ -20,11 +20,11 @@
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/usb/usbd.h>
 
-#include "systemtick.h"
+#include "cdc.h"
 #include "jumpers.h"
 #include "romdisk.h"
-#include "cdc.h"
 #include "serialcore.h"
+#include "systemtick.h"
 
 #include "depend.h"
 
@@ -38,16 +38,21 @@ extern uint32_t magic_point;
 #include "usb.h"
 
 // on usb-fs interrupt
-void otg_fs_isr(void) { otg_fs_isr_local_broker(); }
+void otg_fs_isr(void) { otg_fs_isr_broker(); }
 
 // on systick interrupt
-void sys_tick_handler(void) { sys_tick_handler_local_broker(); }
+void sys_tick_handler(void) { sys_tick_handler_broker(); }
 
 static uint8_t usbd_control_buffer[128];
 
 int main(void) {
+#ifdef STM32F411RE
+    // clock initialisation 84MHz on 8MHz quartz (411)
+    rcc_clock_setup_pll(&rcc_hse_8mhz_3v3[RCC_CLOCK_3V3_84MHZ]);
+#else
     // clock initialisation 168MHz on 8MHz quartz (405/407)
     rcc_clock_setup_pll(&rcc_hse_8mhz_3v3[RCC_CLOCK_3V3_168MHZ]);
+#endif
 
     // power-on usb-fs, leds and button pins
     rcc_periph_clock_enable(RCC_OTGFS);
@@ -78,7 +83,7 @@ int main(void) {
     // otherwise - run application after bootloader init (normal mode)
     if (buttonReleased()) {
         // init systick as 1 kHz
-        systick_setup();        
+        systick_setup();
         appJumper();
     } else {
         while (1)

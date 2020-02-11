@@ -5,12 +5,12 @@
 #
 # Product page: https://amperka.ru/product/iskra-js
 # © Amperka LLC (https://amperka.com, dev@amperka.com)
-# 
+#
 # Author: Yury Botov <by@amperka.com>
 # License: GPLv3, all text here must be included in any redistribution.
 #
 
-# STM32 ISKRAJS board firmware downloader
+# STM32 ISKRAJS board firmware downloader v.0.1.0
 # On board must be USB MSD bootloader
 # Use: python3 iskraloader.py firmwarepath/firmwarename.bin
 
@@ -25,9 +25,24 @@ import platform
 
 volume_name = 'ISKRAJS'  # magic volume name of USB MSD board
 
-# test presence of firmware file
 
-# TODO - made firmware signature check
+# test firmware file signature
+
+def firmwareIsValid(firmware):
+    with open(firmware, "rb") as f:
+        buf = f.read()
+        # test start signature (stack start pointer)
+        if buf[0] == 0 and buf[1] == 0 and buf[3] == 0x20\
+        and (buf[2] == 0x02 or buf[2] == 0x01):
+            # test presence "Amperka IskraJS bootloader"
+            if "Amperka IskraJS bootloader" in str(buf):
+                return True
+            else:
+                return False
+        else:
+            return False
+
+# test presence of firmware file
 
 
 def firmwareIsPresent(firmware):
@@ -36,7 +51,12 @@ def firmwareIsPresent(firmware):
             print('Firmware ' + firmware + ' is present.')
             file_size = str(os.path.getsize(firmware))
             print('Firmware file size is ' + file_size + ' bytes.')
-            return True
+            if firmwareIsValid(firmware):
+                print('Signature is present.')
+                return True
+            else:
+                print('Signature is invalid!')
+                return False
         else:
             print('Firmware ' + firmware + ' is not a file.')
             return False
@@ -82,11 +102,11 @@ def copyFirmware(src, dst):
 def main():
     if len(sys.argv) != 2:
         if platform.system() == 'Windows':
-            print('Usage details: stmloader.py x:\\filepath\\filename.bin')
+            print('Usage details: iskraloader.py x:\\filepath\\filename.bin')
         elif platform.system() == 'Linux':
-            print('Usage details: stmloader.py /filepath/filename.bin')
+            print('Usage details: iskraloader.py /filepath/filename.bin')
         elif platform.system() == 'Darwin':
-            print('Usage details: stmloader.py /filepath/filename.bin')
+            print('Usage details: iskraloader.py /filepath/filename.bin')
         else:
             print('Error: unknown OS platform')
         sys.exit(1)
